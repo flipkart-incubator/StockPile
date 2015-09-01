@@ -23,10 +23,27 @@
 
 - (instancetype) initWithCapacity: (int) capacity
 {
+    self = [self init];
+    
+    if (self)
+    {
+        _capacity = capacity;
+    }
+    
+    return self;
+}
+
+- (instancetype) init
+{
     self = [super init];
     
-    _startNode = nil;
-    _endNode = nil;
+    if (self)
+    {
+        _startNode = nil;
+        _endNode = nil;
+        _lookupDictionary = [[NSMutableDictionary alloc] init];
+    }
+    
     return self;
 }
 
@@ -137,9 +154,11 @@
     node.nextNode.previousNode = node.previousNode;
 }
 
-- (void) removeEndNode
+- (float) removeEndNode
 {
     NSString* key = _endNode.key;
+    
+    float sizeOccupied = _endNode.sizeOfData;
     
     [_lookupDictionary removeObjectForKey:key];
     
@@ -149,6 +168,10 @@
     }
     
     _endNode.previousNode.nextNode = nil;
+    
+    _endNode = _endNode.previousNode;
+    
+    return sizeOccupied;
 }
 
 @end

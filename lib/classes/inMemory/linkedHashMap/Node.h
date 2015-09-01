@@ -38,6 +38,11 @@
 @property (nonatomic, strong) Value*        data;
 
 /**
+ * The size of data in MB, attached with current node
+ */
+@property (nonatomic, assign) float         sizeOfData;
+
+/**
  * This value stoers the caching policy for current node
  */
 @property (nonatomic, assign) CachingPolicyEnum cachingPolicy;

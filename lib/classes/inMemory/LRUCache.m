@@ -15,8 +15,11 @@
 @property (nonatomic, strong) LinkedHashMap* linkedHashMap;
 @property (nonatomic, assign) int capacity;
 @property (nonatomic, assign) int currentSize;
+@property (nonatomic, assign) int memoryLimit;
+@property (nonatomic, assign) int currentMemoryUsage;
 @property (nonatomic, assign) int hitCount;
 @property (nonatomic, assign) int missCount;
+
 
 @end
 
@@ -34,7 +37,27 @@
     if (self)
     {
         _capacity = capacity;
+        _memoryLimit = INT_MAX;
         _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:capacity];
+    }
+    
+    return self;
+}
+
+- (instancetype) initWithMemoryLimitInMB:(int) memoryLimit
+{
+    if (memoryLimit <= 0)
+    {
+        @throw [[CachingException alloc] initWithReason:@"Memory limit must be greater than 0"];
+    }
+    
+    self = [super init];
+    
+    if (self)
+    {
+        _capacity = INT_MAX;
+        _memoryLimit = memoryLimit;
+        _linkedHashMap = [[LinkedHashMap alloc] init];
     }
     
     return self;
@@ -48,7 +71,16 @@
         _currentSize--;
     }
     
+    float memoryNeeded = node.sizeOfData;
+    
+    while (_memoryLimit - _currentMemoryUsage < memoryNeeded)
+    {
+        _currentMemoryUsage -= [_linkedHashMap removeEndNode];
+    }
+    
     [_linkedHashMap putNode:node];
+    _currentMemoryUsage += node.sizeOfData;
+    
     _currentSize++;
 }
 

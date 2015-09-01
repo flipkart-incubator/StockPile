@@ -34,6 +34,6 @@
 - (void) putNode: (Node*) node atIndex: (int) index;
 - (void) moveNode: (Node*) node toPosition:(int) index;
 - (void) removeNodeWithKey: (NSString*) key;
-- (void) removeEndNode;
+- (float) removeEndNode;
 
 @end

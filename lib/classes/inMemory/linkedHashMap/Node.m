@@ -19,6 +19,8 @@
         _key = key;
         _data = data;
         
+        _sizeOfData = (float)_data.value.length/1024.0f/1024.0f;
+        
         if (_cachingPolicy == PERSISTENCE)
         {
             [_nodeProtocolDelegate saveData:data];
