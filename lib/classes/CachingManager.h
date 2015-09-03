@@ -12,18 +12,33 @@
 @interface CachingManager : NSObject
 
 /**
+ @return singleton instance of CoreDataManager
+ */
++ (id)sharedManagerWithCacheType: (id<CacheProtocol>) cachingType;
+
+/**
  @return newly instialized of CachingManager
  */
 - (instancetype)initWithCacheType: (id<CacheProtocol>) cachingType;
 
 /**
- sets the maximum number of elements that should be saved in memory. However, the actual number of elements stored is near to the value set by this function. It could be exact, but that is not gauranteed.
- 
- @param maxNumberOfElementsInMemory maximum number of elements in memory
+ * @param node Node type that needs to be cached
  */
-- (void) setMaximumInMemoryElementLimit: (NSUInteger) maxNumberOfElementsInMemory;
-
 - (void) cacheNode: (Node*) node;
 
+/**
+ * This method will retrieve the cached value against key. If the value is not present in memory,
+ * it will look out in database for corresponding value.
+ *
+ * @param key String value for which the cached value needs to be retrieved
+ *
+ * @return Retrieved cached value as Node. It returns nil if no cached value is found.
+ */
+- (Node*) getNodeForKey:(NSString*) key;
+
+/**
+ * This method will clear all values from cache
+ */
+- (void) clearCache;
 
 @end

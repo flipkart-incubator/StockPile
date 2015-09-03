@@ -7,25 +7,53 @@
 //
 
 #import "CachingManager.h"
+#import "CacheProtocol.h"
 
 @interface CachingManager()
 
-@property (nonatomic, assign) NSUInteger maximumInMemoryElement;
+@property (nonatomic, assign) id<CacheProtocol> cache;
 
 @end
 
 @implementation CachingManager
 
-- (instancetype)init
++ (id)sharedManagerWithCacheType: (id<CacheProtocol>) cachingType
+{
+    static CachingManager *sharedCachingManager = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedCachingManager = [[self alloc] initWithCacheType:cachingType];
+    });
+    
+    return sharedCachingManager;
+}
+
+- (instancetype) initWithCacheType: (id<CacheProtocol>) cachingType
 {
     self = [super init];
+    
+    if (self)
+    {
+        _cache = cachingType;
+    }
     
     return self;
 }
 
-- (void) setMaximumInMemoryElementLimit: (NSUInteger) maxNumberOfElementsInMemory
+- (void) cacheNode: (Node*) node
 {
-    _maximumInMemoryElement = maxNumberOfElementsInMemory;
+    [_cache cacheNode:node];
+}
+
+- (Node*) getNodeForKey:(NSString*) key
+{
+    return [_cache getNodeForKey:key];
+}
+
+- (void) clearCache
+{
+    return [_cache clearCache];
 }
 
 @end

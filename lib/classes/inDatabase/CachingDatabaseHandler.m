@@ -10,4 +10,24 @@
 
 @implementation CachingDatabaseHandler
 
+- (void) saveNode:(Node*) node
+{
+    
+}
+
+- (Node*) getNodeWithKey:(NSString*) key
+{
+    return nil;
+}
+
+- (void) removeNodeWithKey:(NSString*) key
+{
+    
+}
+
+- (void) updateNode:(Node*) node withKey:(NSString*) key
+{
+    
+}
+
 @end

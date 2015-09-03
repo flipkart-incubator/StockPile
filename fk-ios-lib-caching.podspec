@@ -105,14 +105,7 @@ Pod::Spec.new do |s|
   #
 
   # s.resources  = "icon.png"
-  # s.resource = "lib/classes/inDatabase/CachingDatabase.xcdatamodeld"
-
-  s.resource_bundles = {
-  'CachingManager' => ['lib/classes/inDatabase/*.{xcdatamodeld,xcdatamodel}']
-  }
-
-  s.preserve_paths = 'lib/classes/inDatabase/*.{xcdatamodeld,xcdatamodel}'
-
+  s.resource = "lib/classes/inDatabase/CachingDatabase.xcdatamodeld"
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -136,6 +129,6 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # s.dependency "JSONKit", "~> 1.4"
+  s.dependency "JSONKit", "~> 1.4"
 
 end
