@@ -16,19 +16,11 @@
 
 @implementation CachingManager
 
-+ (id)sharedManager
+- (instancetype)init
 {
-    static CachingManager *sharedCachingManager = nil;
+    self = [super init];
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedCachingManager = [[self alloc] init];
-        
-        sharedCachingManager.maximumInMemoryElement = 100;
-        
-    });
-    
-    return sharedCachingManager;
+    return self;
 }
 
 - (void) setMaximumInMemoryElementLimit: (NSUInteger) maxNumberOfElementsInMemory

@@ -104,10 +104,14 @@ Pod::Spec.new do |s|
   #  non-essential files like tests, examples and documentation.
   #
 
-  # s.resource  = "icon.png"
-  # s.resources = "Resources/*.png"
+  # s.resources  = "icon.png"
+  # s.resource = "lib/classes/inDatabase/CachingDatabase.xcdatamodeld"
 
-  # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
+  s.resource_bundles = {
+  'CachingManager' => ['lib/classes/inDatabase/*.{xcdatamodeld,xcdatamodel}']
+  }
+
+  s.preserve_paths = 'lib/classes/inDatabase/*.{xcdatamodeld,xcdatamodel}'
 
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
