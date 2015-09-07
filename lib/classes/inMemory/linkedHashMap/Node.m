@@ -7,6 +7,7 @@
 //
 
 #import "Node.h"
+#import <malloc/malloc.h>
 
 @implementation Node
 
@@ -19,17 +20,11 @@
         _key = key;
         _data = data;
         
-        _sizeOfData = (float)_data.value.length/1024.0f/1024.0f;
-        
-        if (_cachingPolicy == PERSISTENCE)
-        {
-            [_nodeProtocolDelegate saveData:data];
-        }
+        _sizeOfData = (float)malloc_size((__bridge const void *)(data.value))/1024.0f/1024.0f;
     }
     
     return self;
 }
-
 
 - (Value*) getValue
 {

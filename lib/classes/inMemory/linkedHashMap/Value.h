@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Value : NSObject
+@interface Value : NSObject <NSCoding>
 
-@property (nonatomic, strong) NSData* value;
+@property (nonatomic, strong) id value;
 
 @property (nonatomic, strong) NSString* key;
 

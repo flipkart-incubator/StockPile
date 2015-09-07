@@ -9,11 +9,13 @@
 typedef NS_ENUM(NSInteger, CachingPolicyEnum)
 {
     MEMORY    = 0,
-    PERSISTENCE = 1
+    DISK_PERSISTENCE = 1,
+    DB_PERSISTENCE = 2,
+    DISK_FALLBACK = 3,
+    DB_FALLBACK = 4
 };
 
 typedef NS_ENUM(NSInteger, CachingType)
 {
-    LRU = 0,
-    MFU = 1
+    LRU = 0
 };

@@ -13,17 +13,43 @@
 @interface LRUCache()
 
 @property (nonatomic, strong) LinkedHashMap* linkedHashMap;
-@property (nonatomic, assign) int capacity;
 @property (nonatomic, assign) int currentSize;
-@property (nonatomic, assign) int memoryLimit;
 @property (nonatomic, assign) int currentMemoryUsage;
 @property (nonatomic, assign) int hitCount;
 @property (nonatomic, assign) int missCount;
 
-
 @end
 
 @implementation LRUCache
+
+- (LinkedHashMap*) linkedHashMap
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+         _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:(int)_maxElementsInMemory];
+    });
+    
+    return _linkedHashMap;
+}
+
+- (instancetype) initWithCapacity: (int) capacity andMemoryLimit:(int) memoryLimit
+{
+    if (capacity <= 0)
+    {
+        @throw [[CachingException alloc] initWithReason:@"Capacity must be greater than 0"];
+    }
+    
+    self = [super init];
+    
+    if (self)
+    {
+        _maxElementsInMemory = capacity;
+        _maxMemoryAllocated = memoryLimit;
+        _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:capacity];
+    }
+    
+    return self;
+}
 
 /**
  * If initialized using this method, the default memory limit is 100 MB. If memory limit is not
@@ -44,8 +70,8 @@
     
     if (self)
     {
-        _capacity = capacity;
-        _memoryLimit = 100;
+        _maxElementsInMemory = capacity;
+        _maxMemoryAllocated = 100;
         _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:capacity];
     }
     
@@ -71,8 +97,8 @@
     
     if (self)
     {
-        _capacity = INT_MAX;
-        _memoryLimit = memoryLimit;
+        _maxElementsInMemory = INT_MAX;
+        _maxMemoryAllocated = memoryLimit;
         _linkedHashMap = [[LinkedHashMap alloc] init];
     }
     
@@ -84,20 +110,20 @@
  */
 - (void) cacheNode: (Node*) node
 {
-    if (_currentSize == _capacity)
+    if (_currentSize == _maxElementsInMemory)
     {
-        [_linkedHashMap removeEndNode];
+        [[self linkedHashMap]  removeEndNode];
         _currentSize--;
     }
     
     float memoryNeeded = node.sizeOfData;
     
-    while (_memoryLimit - _currentMemoryUsage < memoryNeeded)
+    while ((_maxMemoryAllocated - _currentMemoryUsage) < memoryNeeded)
     {
-        _currentMemoryUsage -= [_linkedHashMap removeEndNode];
+        _currentMemoryUsage -= [[self linkedHashMap] removeEndNode];
     }
     
-    [_linkedHashMap putNode:node];
+    [[self linkedHashMap] putNode:node];
     _currentMemoryUsage += node.sizeOfData;
     
     _currentSize++;
@@ -113,13 +139,13 @@
  */
 - (Node*) getNodeForKey:(NSString*) key
 {
-    Node* node = [_linkedHashMap getObject:key];
+    Node* node = [[self linkedHashMap]  getObject:key];
     
     if (node != nil)
     {
         _hitCount++;
         
-        [_linkedHashMap moveNode:node toPosition:0];
+        [[self linkedHashMap]  moveNode:node toPosition:0];
     }
     else
     {
@@ -135,7 +161,7 @@
 - (void) clearCache
 {
     _currentSize = 0;
-    [_linkedHashMap clear];
+    [[self linkedHashMap]  clear];
 }
 
 @end

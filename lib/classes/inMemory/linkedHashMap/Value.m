@@ -10,4 +10,29 @@
 
 @implementation Value
 
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.value forKey:@"value"];
+    [encoder encodeObject:self.ttlDate forKey:@"ttlDate"];
+    [encoder encodeInteger:self.ttlInterval forKey:@"ttlInterval"];
+    [encoder encodeObject:self.key forKey:@"key"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    self = [super init];
+    
+    if (!self)
+    {
+        return nil;
+    }
+    
+    self.value = [decoder decodeObjectForKey:@"value"];
+    self.ttlDate = [decoder decodeObjectForKey:@"ttlDate"];
+    self.ttlInterval = [decoder decodeIntegerForKey:@"ttlInterval"];
+    self.key = [decoder decodeObjectForKey:@"key"];
+    
+    return self;
+}
+
 @end

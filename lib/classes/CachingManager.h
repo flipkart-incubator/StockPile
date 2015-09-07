@@ -9,17 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "CacheProtocol.h"
 
-@interface CachingManager : NSObject
+@interface CachingManager : NSObject <CacheFallbackProtocal, CacheProtocol>
 
-/**
- @return singleton instance of CoreDataManager
- */
-+ (id)sharedManagerWithCacheType: (id<CacheProtocol>) cachingType;
+@property (nonatomic, assign) BOOL isFallback;
 
 /**
  @return newly instialized of CachingManager
  */
-- (instancetype)initWithCacheType: (id<CacheProtocol>) cachingType;
+- (instancetype)initWithCacheArray: (NSArray*) cacheArray;
 
 /**
  * @param node Node type that needs to be cached

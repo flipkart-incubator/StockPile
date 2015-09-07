@@ -15,8 +15,6 @@
 @property (nonatomic, strong) Node* startNode;
 @property (nonatomic, strong) Node* endNode;
 
-@property (nonatomic, assign) int capacity;
-
 @end
 
 @implementation LinkedHashMap
@@ -68,7 +66,6 @@
         Value* value = [_linkedHashMapDelegate getDataWithKey:key];
         
         node = [[Node alloc] initWithKey:key value:value];
-        node.cachingPolicy = PERSISTENCE;
         
         [_lookupDictionary setObject:node forKey:key];
     }
@@ -105,6 +102,7 @@
     {
         _endNode = node;
         _endNode.previousNode = _startNode;
+        _startNode.nextNode = node;
         _endNode.nextNode = nil;
     }
     else
@@ -129,14 +127,42 @@
     Node* root = _startNode;
     int count = 0;
     
-    while (count != index)
+    while (count++ != index)
     {
         root = root.nextNode;
     }
     
+    if (root == node)
+        return;
+    
+    //deleting node from its original position
+    node.previousNode.nextNode = node.nextNode;
+    
+    //case when node is the last node
+    if (node.nextNode == nil)
+    {
+        _endNode = node.previousNode;
+    }
+    
+    node.nextNode.previousNode = node.previousNode;
+    
+    node.previousNode = nil;
+    node.nextNode = nil;
+    
+    //adding node to its new position
     root.previousNode.nextNode = node;
+    
+    if (root.previousNode == nil)
+    {
+        _startNode = node;
+    }
+    
     node.previousNode = root.previousNode;
+    
     node.nextNode = root;
+    root.previousNode = node;
+    
+    root = _startNode;
 }
 
 - (void) removeNodeWithKey: (NSString*) key
@@ -161,11 +187,6 @@
     float sizeOccupied = _endNode.sizeOfData;
     
     [_lookupDictionary removeObjectForKey:key];
-    
-    if (_endNode.cachingPolicy == PERSISTENCE)
-    {
-        [_endNode.nodeProtocolDelegate saveData:_endNode.data];
-    }
     
     _endNode.previousNode.nextNode = nil;
     

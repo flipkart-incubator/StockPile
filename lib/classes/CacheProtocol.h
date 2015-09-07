@@ -9,9 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "Node.h"
 
+@protocol CacheFallbackProtocal <NSObject>
+
+- (void) handleEvictedNodes: (NSArray*) evictedNodes evictedAtIndex:(int) index;
+
+@end
+
 @protocol CacheProtocol <NSObject>
 
 @required
+
+@property (nonatomic, strong, getter=path) NSString* path;
 
 /**
  * @param node Node type that needs to be cached
@@ -32,7 +40,5 @@
  * This method will clear all values from cache
  */
 - (void) clearCache;
-
-
 
 @end

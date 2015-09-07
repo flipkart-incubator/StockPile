@@ -2,44 +2,169 @@
 //  CacheFactory.m
 //  Pods
 //
-//  Created by Prabodh Prakash on 03/09/15.
+//  Created by Prabodh Prakash on 04/09/15.
 //
 //
 
 #import "CacheFactory.h"
-#import <CachingException.h>
-#import <LRUCache.h>
+#import "NSObject+CacheBuilder.h"
+#import "LRUCache.h"
+#import "LRUDBCache.h"
+#import "LRUDiskCache.h"
+#import "CachingException.h"
+
+#define DEFAULT_MAX_ELEMENT_IN_MEMORY 100
+#define DEFAULT_MAX_MEMORY 10
+
+@implementation CacheFactoryDataSource
+
+- (NSInteger) maximumElementInMemory
+{
+    if (_maximumElementInMemory  <= 0)
+    {
+        _maximumElementInMemory = DEFAULT_MAX_ELEMENT_IN_MEMORY;
+    }
+    
+    return _maximumElementInMemory;
+}
+
+- (NSInteger) maximumMemoryAllocated
+{
+    if (_maximumMemoryAllocated  <= 0)
+    {
+        _maximumMemoryAllocated = DEFAULT_MAX_MEMORY;
+    }
+    
+    return _maximumMemoryAllocated;
+}
+
+- (id <CacheProtocol>) cachingDBDelegate
+{
+    if (!_cachingDBDelegate)
+    {
+        _cachingDBDelegate = [[CachingDatabaseHandler alloc] init];
+    }
+    
+    return _cachingDBDelegate;
+}
+
+- (id <CacheProtocol>) cachingDiskDelegate
+{
+    if (!_cachingDiskDelegate)
+    {
+        _cachingDiskDelegate = [[CachingDiskHandler alloc] init];
+    }
+    
+    return _cachingDiskDelegate;
+}
+
+@end
 
 @implementation CacheFactory
 
-+ (id<CacheProtocol>) getCacheWithMaxElementCount: (int) elementCount
-                                   maxMemoryLimit: (int) maxMemoryLimit
-                                        cacheType: (CachingType) cachingType
++ (id<CacheProtocol>) getCacheWithPolicy: (CachingPolicyEnum) cachePolicy cacheFactoryDataSource:(CacheFactoryDataSource*) dataSource
 {
-    id <CacheProtocol> cache;
+    BOOL isFallback = false;
+    NSMutableArray* cacheArray = [NSMutableArray new];
+    CachingManager* cachingManager = nil;
     
-    if (elementCount > 0 && maxMemoryLimit > 0)
-    {
-        @throw [[CachingException alloc] initWithReason:@"Both elementCount and maxMemoryLimit cannot be greater than zero simultaneously"];
-    }
+    LRUCache* inMemoryCache = [self inMemoryCacheWithDataSource:dataSource];
+    inMemoryCache.maxMemoryAllocated = dataSource.maximumMemoryAllocated;
+    inMemoryCache.maxElementsInMemory = dataSource.maximumElementInMemory;
+    inMemoryCache.index = 0;
     
-    if (cachingType == LRU)
+    switch (cachePolicy)
     {
-        if (elementCount > 0)
+        case MEMORY:
         {
-            cache = [[LRUCache alloc] initWithCapacity:elementCount];
+            [cacheArray addObject:inMemoryCache];
+            break;
         }
-        else if (maxMemoryLimit)
+        case DISK_PERSISTENCE:
         {
-            cache = [[LRUCache alloc] initWithMemoryLimitInMB:maxMemoryLimit];
+            LRUDiskCache* diskCache = [self diskCacheWithDataSource:dataSource];
+            diskCache.index = 1;
+            
+            [cacheArray addObject:inMemoryCache];
+            [cacheArray addObject:diskCache];
+            
+            break;
         }
-    }
-    else if (cachingType == MFU)
-    {
-        @throw [[CachingException alloc] initWithReason:@"MFU is not supported currently"];
+        case DB_PERSISTENCE:
+        {
+            LRUDBCache* dbCache = [self dbCacheWithDataSource:dataSource];
+            dbCache.index = 1;
+            
+            [cacheArray addObject:inMemoryCache];
+            [cacheArray addObject:dbCache];
+            
+            break;
+        }
+        case DISK_FALLBACK:
+        {
+            LRUDiskCache* diskCache = [self diskCacheWithDataSource:dataSource];
+            diskCache.index = 1;
+            
+            [cacheArray addObject:inMemoryCache];
+            [cacheArray addObject:diskCache];
+            
+            isFallback = true;
+            
+            break;
+        }
+        case DB_FALLBACK:
+        {
+            LRUDBCache* dbCache = [self dbCacheWithDataSource:dataSource];
+            dbCache.index = 1;
+            
+            [cacheArray addObject:inMemoryCache];
+            [cacheArray addObject:dbCache];
+            
+            isFallback = true;
+            
+            break;
+        }
     }
     
-    return cache;
+    cachingManager = [[CachingManager alloc] initWithCacheArray:cacheArray];
+    cachingManager.isFallback = isFallback;
+    
+    return cachingManager;
+}
+
++ (LRUCache*) inMemoryCacheWithDataSource: (CacheFactoryDataSource*) dataSource
+{
+    __block CacheFactoryDataSource* blockDataSource = dataSource;
+    
+    return [[LRUCache alloc] initUsingBlock:^(LRUCache* cache)
+             {
+                 cache.maxElementsInMemory = [blockDataSource maximumElementInMemory];
+                 cache.maxMemoryAllocated = [blockDataSource maximumMemoryAllocated];
+             }];
+}
+
++ (LRUDBCache*) dbCacheWithDataSource: (CacheFactoryDataSource*) dataSource
+{
+    __block CacheFactoryDataSource* blockDataSource = dataSource;
+    
+    return [[LRUDBCache alloc] initUsingBlock:^(LRUDBCache* cache)
+            {
+                cache.pathForDBCaching = [blockDataSource pathForDBCaching];
+                cache.cachingDatabaseDelegate = [blockDataSource cachingDBDelegate];
+                [cache.cachingDatabaseDelegate setPath:[blockDataSource pathForDBCaching]];
+            }];
+}
+
++ (LRUDiskCache*) diskCacheWithDataSource: (CacheFactoryDataSource*) dataSource
+{
+    __block CacheFactoryDataSource* blockDataSource = dataSource;
+    
+    return [[LRUDiskCache alloc] initUsingBlock:^(LRUDiskCache* cache)
+            {
+                cache.pathForDiskCaching = [blockDataSource pathForDiskCaching];
+                cache.cachingDiskProtocol = [blockDataSource cachingDiskDelegate];
+                [cache.cachingDiskProtocol setPath:[blockDataSource pathForDiskCaching]];
+            }];
 }
 
 @end

@@ -11,31 +11,29 @@
 
 @interface CachingManager()
 
-@property (nonatomic, assign) id<CacheProtocol> cache;
+@property (nonatomic, strong) NSArray* cacheArray;
+
+@end
+
+@interface CachingManager()
+{
+    dispatch_queue_t serialQueue;
+}
 
 @end
 
 @implementation CachingManager
+@synthesize path;
 
-+ (id)sharedManagerWithCacheType: (id<CacheProtocol>) cachingType
-{
-    static CachingManager *sharedCachingManager = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedCachingManager = [[self alloc] initWithCacheType:cachingType];
-    });
-    
-    return sharedCachingManager;
-}
-
-- (instancetype) initWithCacheType: (id<CacheProtocol>) cachingType
+- (instancetype) initWithCacheArray: (NSArray*) cacheArray;
 {
     self = [super init];
     
     if (self)
     {
-        _cache = cachingType;
+        _cacheArray = cacheArray;
+        
+        serialQueue = dispatch_queue_create("com.caching", DISPATCH_QUEUE_SERIAL);
     }
     
     return self;
@@ -43,17 +41,73 @@
 
 - (void) cacheNode: (Node*) node
 {
-    [_cache cacheNode:node];
+    dispatch_sync(serialQueue, ^{
+        
+        if (!_isFallback)
+        {
+            [[_cacheArray objectAtIndex:0] cacheNode:node];
+        }
+        else
+        {
+            for (id<CacheProtocol> cache in _cacheArray)
+            {
+                [cache cacheNode:node];
+            }
+        }
+    });
+    
 }
 
 - (Node*) getNodeForKey:(NSString*) key
 {
-    return [_cache getNodeForKey:key];
+    __block Node* node = nil;
+    dispatch_sync(serialQueue, ^{
+        
+        if (_isFallback)
+        {
+            int i = 0;
+            if (i <  [_cacheArray count] && node == nil)
+            {
+                id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
+                node = [cache getNodeForKey:key];
+            }
+        }
+        else
+        {
+            id<CacheProtocol> cache = [_cacheArray objectAtIndex:0];
+            node = [cache getNodeForKey:key];
+        }
+    });
+    
+    return node;
 }
 
 - (void) clearCache
 {
-    return [_cache clearCache];
+    dispatch_sync(serialQueue, ^{
+        
+        int i = 0;
+        if (i <  [_cacheArray count])
+        {
+            id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
+            [cache clearCache];
+        }
+    });
+}
+
+#pragma mark CacheFallbackProtocal methods
+
+- (void) handleEvictedNodes: (NSArray*) evictedNodes evictedAtIndex:(int) index
+{
+    if (!_isFallback || index >= [_cacheArray count] -1)
+        return;
+    
+    id<CacheProtocol> nextCache = _cacheArray[index +1];
+    
+    for (Node* node in evictedNodes)
+    {
+        [nextCache cacheNode:node];
+    }
 }
 
 @end

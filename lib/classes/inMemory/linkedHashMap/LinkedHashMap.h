@@ -25,6 +25,7 @@
 @interface LinkedHashMap : NSObject
 
 @property (nonatomic, strong) id<LinkedHashMapProtocol> linkedHashMapDelegate;
+@property (nonatomic, assign) int capacity;
 
 - (instancetype) initWithCapacity: (int) capacity;
 - (BOOL) containsValue: (Node*) node;
