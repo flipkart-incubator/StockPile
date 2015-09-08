@@ -14,14 +14,19 @@
 
 - (void) cacheNode: (Node*) node
 {
-    NSString* path = [NSString stringWithFormat:@"%@/%@", _path, node.key];
-    [NSKeyedArchiver archiveRootObject:node.data toFile:path];
+    NSString *filePath = [_path stringByAppendingPathComponent:node.key];
+    
+    BOOL success = [NSKeyedArchiver archiveRootObject:node.data toFile:filePath];
 }
 
 - (Node*) getNodeForKey:(NSString*) key
 {
-    NSString* path = [NSString stringWithFormat:@"%@/%@", _path, key];
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    NSString *filePath = [_path stringByAppendingPathComponent:key];
+    Value* value = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    
+    Node* node = [[Node alloc] initWithKey:key value:value];
+    
+    return node;
 }
 
 - (void) clearCache

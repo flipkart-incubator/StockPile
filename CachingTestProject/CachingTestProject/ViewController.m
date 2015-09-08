@@ -32,9 +32,18 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSString*)applicationDocumentsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    return documentsDirectory;
 }
 
 - (IBAction)addToCacheClicked:(id)sender
@@ -48,7 +57,6 @@
     Node* node = [[Node alloc] initWithKey:key value:value];
     
     [_cachingManager cacheNode:node];
-
 }
 
 - (IBAction)getValueClicked:(id)sender
@@ -63,8 +71,9 @@
     _dataSource = [[CacheFactoryDataSource alloc] init];
     _dataSource.maximumElementInMemory = [_countOfElements.text integerValue];
     _dataSource.maximumMemoryAllocated = [_memoryAllocated.text integerValue];
+    _dataSource.pathForDiskCaching = [self applicationDocumentsDirectory];
     
-    _cachingManager = [CacheFactory getCacheWithPolicy:MEMORY cacheFactoryDataSource:_dataSource];
+    _cachingManager = [CacheFactory getCacheWithPolicy:DISK_PERSISTENCE cacheFactoryDataSource:_dataSource];
 }
 
 @end

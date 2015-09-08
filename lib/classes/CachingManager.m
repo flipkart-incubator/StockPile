@@ -43,7 +43,7 @@
 {
     dispatch_sync(serialQueue, ^{
         
-        if (!_isFallback)
+        if (_isFallback)
         {
             [[_cacheArray objectAtIndex:0] cacheNode:node];
         }
@@ -63,19 +63,13 @@
     __block Node* node = nil;
     dispatch_sync(serialQueue, ^{
         
-        if (_isFallback)
+        int i = 0;
+        while (i <  [_cacheArray count] && node.data == nil)
         {
-            int i = 0;
-            if (i <  [_cacheArray count] && node == nil)
-            {
-                id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
-                node = [cache getNodeForKey:key];
-            }
-        }
-        else
-        {
-            id<CacheProtocol> cache = [_cacheArray objectAtIndex:0];
+            id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
             node = [cache getNodeForKey:key];
+            
+            NSLog(@"value %@", node.data.value);
         }
     });
     

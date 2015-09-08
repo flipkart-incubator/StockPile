@@ -15,4 +15,9 @@
     [_cachingDiskProtocol cacheNode:node];
 }
 
+- (Node*) getNodeForKey:(NSString *)key
+{
+    return [_cachingDiskProtocol getNodeForKey:key];
+}
+
 @end
