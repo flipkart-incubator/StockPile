@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "fk-ios-lib-caching"
   s.version      = "0.0.1"
-  s.summary      = "A short description of fk-ios-lib-caching."
+  s.summary      = "Caching Library in iOS"
 
   s.description  = <<-DESC
                    A longer description of fk-ios-lib-caching in Markdown format.
@@ -77,7 +77,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   # =>
 
-  s.source       = { :git => "https://github.com/Flipkart/#{s.name}.git", :tag =>s.version }
+  s.source       = { :git => "https://github.com/Flipkart/#{s.name}.git", :tag =>s.version.to_s }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
