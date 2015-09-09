@@ -39,8 +39,7 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  #s.license      = "MIT (example)"
-   s.license      = { :type => "MIT", :file => "MIT.license" }
+  s.license      = { :type => "MIT", :file => "LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -55,8 +54,7 @@ Pod::Spec.new do |s|
 
   s.author             = { "prabodhprakash" => "prabodh.prakash@flipkart.com" }
   # Or just: s.author    = "prabodhprakash"
-  # s.authors            = { "prabodhprakash" => "prabodh.prakash@flipkart.com" }
-  # s.social_media_url   = "http://twitter.com/prabodhprakash"
+  s.social_media_url   = "http://twitter.com/prabodhprakash"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -65,7 +63,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  # s.platform     = :ios, "5.0"
+  s.platform     = :ios, "7.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -129,6 +127,7 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+
   #s.dependency "fk-ios-lib-coredata", :path => "../fk-ios-lib-coredata/lib/fk-ios-lib-coredata.podspec"
 
 end
