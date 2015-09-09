@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86D155A7DAE9074615BECD9A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CC24AA5346A4FA8DF4FF93 /* libPods.a */; };
 		99EF021989AF65CD23EF77BE /* libPods-CachingTestProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC037A62650AA2D33834C65 /* libPods-CachingTestProject.a */; };
 		A6677539D9104C91D7B1D90E /* libPods-CachingTestProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A49A1C157DE1251BE32EA946 /* libPods-CachingTestProjectTests.a */; };
 		BF7322051B8EE23C00E7B0AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7322041B8EE23C00E7B0AA /* main.m */; };
@@ -32,6 +33,7 @@
 		166F183D37A0E6DB17953F01 /* Pods-CachingTestProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingTestProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingTestProjectTests/Pods-CachingTestProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		7136832CA92460781AE038CF /* Pods-CachingTestProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingTestProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject.debug.xcconfig"; sourceTree = "<group>"; };
 		A49A1C157DE1251BE32EA946 /* libPods-CachingTestProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CachingTestProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5CC24AA5346A4FA8DF4FF93 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA34B985128EE9FDE82379FA /* Pods-CachingTestProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingTestProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject.release.xcconfig"; sourceTree = "<group>"; };
 		BC64125EBA43FD9E1824FDF4 /* Pods-CachingTestProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingTestProjectTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CachingTestProjectTests/Pods-CachingTestProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF7321FF1B8EE23C00E7B0AA /* CachingTestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CachingTestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99EF021989AF65CD23EF77BE /* libPods-CachingTestProject.a in Frameworks */,
+				86D155A7DAE9074615BECD9A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +89,7 @@
 			children = (
 				CDC037A62650AA2D33834C65 /* libPods-CachingTestProject.a */,
 				A49A1C157DE1251BE32EA946 /* libPods-CachingTestProjectTests.a */,
+				A5CC24AA5346A4FA8DF4FF93 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -308,7 +312,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
