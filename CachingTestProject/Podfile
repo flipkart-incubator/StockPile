@@ -1,10 +1,14 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '6.0'
 
-target 'CachingTestProject' do
-    pod 'fk-ios-lib-caching', :path => "../fk-ios-lib-caching.podspec"
-end
+source 'git@github.com:Flipkart/fk-private-cocoapods.git'
+source 'https://github.com/CocoaPods/Specs.git'
 
-target 'CachingTestProjectTests' do
-    pod 'fk-ios-lib-caching', :path => "../fk-ios-lib-caching.podspec"
-end 
+#target 'CachingTestProject' do
+    pod 'fk-ios-lib-coredata', "0.0.1"
+#pod 'fk-ios-lib-caching', :path => '../fk-ios-lib-caching.podspec'
+#end
+
+#target 'CachingTestProjectTests' do
+#    pod 'fk-ios-lib-caching', :local => "../fk-ios-lib-caching.podspec"
+#end
