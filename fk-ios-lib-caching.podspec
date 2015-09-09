@@ -39,8 +39,8 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  s.license      = "MIT (example)"
-  # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
+  #s.license      = "MIT (example)"
+   s.license      = { :type => "MIT", :file => "MIT.license" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   # =>
 
-  s.source       = { :git => "https://github.com/Flipkart/fk-ios-lib-caching.git", :branch => "InMemoryImplementation" }
+  s.source = { :git => "https://github.com/Flipkart/fk-ios-lib-caching.git", :branch => "feature/InMemoryImplementation" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -129,6 +129,6 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # s.dependency 'fk-ios-lib-coredata', :path => '../fk-ios-lib-coredata/lib/fk-ios-lib-coredata.podspec'
+  #s.dependency "fk-ios-lib-coredata", :path => "../fk-ios-lib-coredata/lib/fk-ios-lib-coredata.podspec"
 
 end
