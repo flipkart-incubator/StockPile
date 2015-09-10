@@ -10,6 +10,11 @@
 
 @implementation Value
 
+@synthesize key;
+@synthesize value;
+@synthesize ttlDate;
+@synthesize ttlInterval;
+
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
     [encoder encodeObject:self.value forKey:@"value"];

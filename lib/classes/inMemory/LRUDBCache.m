@@ -12,7 +12,17 @@
 
 - (BOOL) cacheNode:(Node *)node
 {
-    return NO;
+    return [_cachingDatabaseDelegate cacheNode:node];
+}
+
+- (Node*) getNodeForKey:(NSString*) key
+{
+    return [_cachingDatabaseDelegate getNodeForKey:key];
+}
+
+- (void) clearCache
+{
+    
 }
 
 @end

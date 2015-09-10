@@ -66,7 +66,7 @@
  * @param value value with which the node needs to be initialized
  * @return The newly-initialized CoreDataException
  */
-- (instancetype) initWithKey: (NSString*) key value: (Value*) data NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithKey: (NSString*) key value: (Value*) data;
 
 /**
  * @return the current value of the node

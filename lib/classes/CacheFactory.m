@@ -149,9 +149,9 @@
     
     return [[LRUDBCache alloc] initUsingBlock:^(LRUDBCache* cache)
             {
-                cache.pathForDBCaching = [blockDataSource pathForDBCaching];
+                cache.pathForDBCaching = [blockDataSource dbIdentifier];
                 cache.cachingDatabaseDelegate = [blockDataSource cachingDBDelegate];
-                [cache.cachingDatabaseDelegate setPath:[blockDataSource pathForDBCaching]];
+                [cache.cachingDatabaseDelegate setPath:[blockDataSource dbIdentifier]];
             }];
 }
 

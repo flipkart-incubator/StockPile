@@ -69,8 +69,6 @@
         {
             id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
             node = [cache getNodeForKey:key];
-            
-            NSLog(@"value %@", node.data.value);
         }
     });
     

@@ -6,13 +6,6 @@
 //
 //
 
-#ifndef Pods_Cache_h
-#define Pods_Cache_h
-
-
-#endif
-
-
 #import "CacheFactory.h"
 #import "CacheProtocol.h"
 #import "CachingEnum.h"

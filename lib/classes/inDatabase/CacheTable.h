@@ -1,19 +1,16 @@
 //
-//  Value.h
+//  CacheTable.h
 //  Pods
 //
-//  Created by Prabodh Prakash on 28/08/15.
+//  Created by Prabodh Prakash on 10/09/15.
 //
 //
 
-#import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Value;
+@interface CacheTable : NSManagedObject
 
-@interface Value : NSObject <NSCoding>
-
-@property (nonatomic, strong) id<NSCoding> value;
+@property (nonatomic, strong) NSData* value;
 
 @property (nonatomic, strong) NSString* key;
 

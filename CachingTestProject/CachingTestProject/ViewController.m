@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import <Cache.h>
+#import <CacheLibrary.h>
 
 @interface ViewController ()
 - (IBAction)addToCacheClicked:(id)sender;
@@ -63,7 +63,7 @@
 {
     Node* node = [_cachingManager getNodeForKey:_valueToGet.text];
     
-    _cachedValue.text = node.data.value;
+    _cachedValue.text = (NSString*)node.data.value;
 }
 
 - (IBAction)initCacheClicked:(id)sender
@@ -72,8 +72,9 @@
     _dataSource.maximumElementInMemory = [_countOfElements.text integerValue];
     _dataSource.maximumMemoryAllocated = [_memoryAllocated.text integerValue];
     _dataSource.pathForDiskCaching = [self applicationDocumentsDirectory];
-    
-    _cachingManager = [CacheFactory getCacheWithPolicy:DB_PERSISTENCE cacheFactoryDataSource:_dataSource];
+    _dataSource.dbIdentifier = @"testProjectDatabase.sqlite";
+
+    _cachingManager = [CacheFactory getCacheWithPolicy:DISK_PERSISTENCE cacheFactoryDataSource:_dataSource];
 }
 
 @end
