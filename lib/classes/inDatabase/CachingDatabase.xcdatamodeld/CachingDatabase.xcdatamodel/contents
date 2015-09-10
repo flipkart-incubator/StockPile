@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14F27" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Value" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9048" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
+    <entity name="CacheTable" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="ttlDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="ttlInterval" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Binary" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Value" positionX="-54" positionY="-9" width="128" height="30"/>
+        <element name="CacheTable" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>
 </model>
