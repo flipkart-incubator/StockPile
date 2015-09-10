@@ -108,7 +108,7 @@
 /**
  * @param node Node type that needs to be cached
  */
-- (void) cacheNode: (Node*) node
+- (BOOL) cacheNode: (Node*) node
 {
     if (_currentSize == _maxElementsInMemory)
     {
@@ -127,6 +127,8 @@
     _currentMemoryUsage += node.sizeOfData;
     
     _currentSize++;
+    
+    return YES;
 }
 
 /**

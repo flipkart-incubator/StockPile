@@ -12,11 +12,13 @@
 
 @synthesize path = _path;
 
-- (void) cacheNode: (Node*) node
+- (BOOL) cacheNode: (Node*) node
 {
     NSString *filePath = [_path stringByAppendingPathComponent:node.key];
     
     BOOL success = [NSKeyedArchiver archiveRootObject:node.data toFile:filePath];
+    
+    return success;
 }
 
 - (Node*) getNodeForKey:(NSString*) key

@@ -13,7 +13,7 @@
 
 @synthesize path;
 
-- (void) cacheNode: (Node*) node
+- (BOOL) cacheNode: (Node*) node
 {
     @throw [[CachingException alloc] initWithReason:@"Must be called to a sub class of BaseCache"];
 }

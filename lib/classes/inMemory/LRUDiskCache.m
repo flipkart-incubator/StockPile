@@ -10,9 +10,9 @@
 
 @implementation LRUDiskCache
 
-- (void) cacheNode:(Node *)node
+- (BOOL) cacheNode:(Node *)node
 {
-    [_cachingDiskProtocol cacheNode:node];
+    return [_cachingDiskProtocol cacheNode:node];
 }
 
 - (Node*) getNodeForKey:(NSString *)key

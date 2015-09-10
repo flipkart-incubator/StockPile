@@ -73,7 +73,7 @@
     _dataSource.maximumMemoryAllocated = [_memoryAllocated.text integerValue];
     _dataSource.pathForDiskCaching = [self applicationDocumentsDirectory];
     
-    _cachingManager = [CacheFactory getCacheWithPolicy:DISK_PERSISTENCE cacheFactoryDataSource:_dataSource];
+    _cachingManager = [CacheFactory getCacheWithPolicy:DB_PERSISTENCE cacheFactoryDataSource:_dataSource];
 }
 
 @end

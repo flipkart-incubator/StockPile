@@ -10,9 +10,9 @@
 
 @implementation LRUDBCache
 
-- (void) cacheNode:(Node *)node
+- (BOOL) cacheNode:(Node *)node
 {
-    
+    return NO;
 }
 
 @end

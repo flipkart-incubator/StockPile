@@ -39,7 +39,7 @@
     return self;
 }
 
-- (void) cacheNode: (Node*) node
+- (BOOL) cacheNode: (Node*) node
 {
     dispatch_sync(serialQueue, ^{
         
@@ -56,6 +56,7 @@
         }
     });
     
+    return true;
 }
 
 - (Node*) getNodeForKey:(NSString*) key

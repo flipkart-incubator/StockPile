@@ -9,10 +9,11 @@
 #import "CachingDatabaseHandler.h"
 
 @implementation CachingDatabaseHandler
+@synthesize path = _path;
 
-- (void) cacheNode: (Node*) node
+- (BOOL) cacheNode: (Node*) node
 {
-    
+    return NO;
 }
 
 - (Node*) getNodeForKey:(NSString*) key

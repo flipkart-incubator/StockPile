@@ -24,7 +24,7 @@
 /**
  * @param node Node type that needs to be cached
  */
-- (void) cacheNode: (Node*) node;
+- (BOOL) cacheNode: (Node*) node;
 
 /**
  * This method will retrieve the cached value against key. If the value is not present in memory,
