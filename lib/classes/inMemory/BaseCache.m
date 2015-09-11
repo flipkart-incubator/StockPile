@@ -43,6 +43,8 @@
     
     BOOL cached = [self cacheNode:node];
     if (cached) {
+        // call mirror
+        [self.mirroredCache cacheNode:node];
         
 #warning add the code to add data to the fallback and mirror cache on a separate thread
         
@@ -52,7 +54,8 @@
 
 - (Value*) getValueForKey:(NSString*) key{
     Node *node = [self getNodeForKey:key];
-    if (!node) {
+    if (!node.data) {
+        node = [self.mirroredCache getNodeForKey:key];
 #warning you might want to get the data from the fallback or mirroed cache
     }
     

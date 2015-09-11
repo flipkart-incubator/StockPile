@@ -25,14 +25,9 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        NSURL* applicationDirectoryURL =  [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeKey:self.dbName objectModelIdentifier:@"CachingDatabase"];
         
-        NSURL *urlToDB = [applicationDirectoryURL URLByAppendingPathComponent:self.dbName];
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"CachingDatabase" withExtension:@"momd"];
-        
-        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:urlToDB objectModel:[modelURL absoluteString]];
-        
-        _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:@"CachingDBHandler"];
+        _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:self.dbName];
     });
     
     return _coreDatabaseInterface;
