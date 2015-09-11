@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		506C29CB3FAC4926A9035FDC /* libPods-CachingTestProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC037A62650AA2D33834C65 /* libPods-CachingTestProject.a */; };
-		86D155A7DAE9074615BECD9A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5CC24AA5346A4FA8DF4FF93 /* libPods.a */; };
 		A6677539D9104C91D7B1D90E /* libPods-CachingTestProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A49A1C157DE1251BE32EA946 /* libPods-CachingTestProjectTests.a */; };
 		BF7322051B8EE23C00E7B0AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7322041B8EE23C00E7B0AA /* main.m */; };
 		BF7322081B8EE23C00E7B0AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7322071B8EE23C00E7B0AA /* AppDelegate.m */; };
@@ -17,6 +15,7 @@
 		BF7322101B8EE23C00E7B0AA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF73220F1B8EE23C00E7B0AA /* Images.xcassets */; };
 		BF7322131B8EE23C00E7B0AA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF7322111B8EE23C00E7B0AA /* LaunchScreen.xib */; };
 		BF73221F1B8EE23C00E7B0AA /* CachingTestProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73221E1B8EE23C00E7B0AA /* CachingTestProjectTests.m */; };
+		BFA7D4291BA2EB6F003B21F4 /* libPods-CachingTestProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA7D4281BA2EB6F003B21F4 /* libPods-CachingTestProject.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +48,7 @@
 		BF7322181B8EE23C00E7B0AA /* CachingTestProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CachingTestProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF73221D1B8EE23C00E7B0AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF73221E1B8EE23C00E7B0AA /* CachingTestProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CachingTestProjectTests.m; sourceTree = "<group>"; };
+		BFA7D4281BA2EB6F003B21F4 /* libPods-CachingTestProject.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CachingTestProject.a"; path = "Pods/../build/Debug-iphoneos/libPods-CachingTestProject.a"; sourceTree = "<group>"; };
 		CDC037A62650AA2D33834C65 /* libPods-CachingTestProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CachingTestProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -57,8 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86D155A7DAE9074615BECD9A /* libPods.a in Frameworks */,
-				506C29CB3FAC4926A9035FDC /* libPods-CachingTestProject.a in Frameworks */,
+				BFA7D4291BA2EB6F003B21F4 /* libPods-CachingTestProject.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +86,7 @@
 		70FD6B9BB4111613827EECF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFA7D4281BA2EB6F003B21F4 /* libPods-CachingTestProject.a */,
 				CDC037A62650AA2D33834C65 /* libPods-CachingTestProject.a */,
 				A49A1C157DE1251BE32EA946 /* libPods-CachingTestProjectTests.a */,
 				A5CC24AA5346A4FA8DF4FF93 /* libPods.a */,
@@ -203,7 +203,7 @@
 		BF7321F71B8EE23C00E7B0AA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Flipkart;
 				TargetAttributes = {
 					BF7321FE1B8EE23C00E7B0AA = {
@@ -387,6 +387,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -402,7 +403,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -439,7 +440,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -453,6 +454,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CachingTestProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipkart.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -464,6 +470,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CachingTestProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipkart.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -483,6 +494,7 @@
 				);
 				INFOPLIST_FILE = CachingTestProjectTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipkart.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CachingTestProject.app/CachingTestProject";
 			};
@@ -499,6 +511,7 @@
 				);
 				INFOPLIST_FILE = CachingTestProjectTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipkart.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CachingTestProject.app/CachingTestProject";
 			};
