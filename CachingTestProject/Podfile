@@ -7,3 +7,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'CachingTestProject' do
     pod 'fk-ios-lib-caching', :path => "../fk-ios-lib-caching.podspec"
 end
+
+
+target 'CachingTestProjectTests' do
+    pod 'fk-ios-lib-caching', :path => "../fk-ios-lib-caching.podspec"
+end
