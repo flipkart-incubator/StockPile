@@ -22,14 +22,15 @@
 
 @implementation LRUCache
 
-- (LinkedHashMap*) linkedHashMap
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-         _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:(int)_maxElementsInMemory];
-    });
-    
-    return _linkedHashMap;
+@synthesize linkedHashMap = _linkedHashMap;
+
+- (instancetype)init{
+    self = [super init];
+    if (self)
+    {
+        self.linkedHashMap = [[LinkedHashMap alloc] init];
+    }
+    return self;
 }
 
 - (instancetype) initWithCapacity: (int) capacity andMemoryLimit:(int) memoryLimit
@@ -39,15 +40,7 @@
         @throw [[CachingException alloc] initWithReason:@"Capacity must be greater than 0"];
     }
     
-    self = [super init];
-    
-    if (self)
-    {
-        _maxElementsInMemory = capacity;
-        _maxMemoryAllocated = memoryLimit;
-        _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:capacity];
-    }
-    
+    self = [self init];
     return self;
 }
 
@@ -66,13 +59,12 @@
         @throw [[CachingException alloc] initWithReason:@"Capacity must be greater than 0"];
     }
     
-    self = [super init];
-    
+    self = [self init];
     if (self)
     {
         _maxElementsInMemory = capacity;
         _maxMemoryAllocated = 100;
-        _linkedHashMap = [[LinkedHashMap alloc] initWithCapacity:capacity];
+        _linkedHashMap = [[LinkedHashMap alloc] init];
     }
     
     return self;
@@ -99,11 +91,11 @@
     {
         _maxElementsInMemory = INT_MAX;
         _maxMemoryAllocated = memoryLimit;
-        _linkedHashMap = [[LinkedHashMap alloc] init];
     }
     
     return self;
 }
+
 
 /**
  * @param node Node type that needs to be cached

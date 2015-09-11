@@ -10,11 +10,11 @@
 
 @implementation CachingDiskHandler
 
-@synthesize path = _path;
+@synthesize filePath = _filePath;
 
 - (BOOL) cacheNode: (Node*) node
 {
-    NSString *filePath = [_path stringByAppendingPathComponent:node.key];
+    NSString *filePath = [self.filePath stringByAppendingPathComponent:node.key];
     
     BOOL success = [NSKeyedArchiver archiveRootObject:node.data toFile:filePath];
     
@@ -23,17 +23,15 @@
 
 - (Node*) getNodeForKey:(NSString*) key
 {
-    NSString *filePath = [_path stringByAppendingPathComponent:key];
+    NSString *filePath = [self.filePath stringByAppendingPathComponent:key];
     Value* value = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    
     Node* node = [[Node alloc] initWithKey:key value:value];
-    
     return node;
 }
 
 - (void) clearCache
 {
-    
+#warning complete the code
 }
 
 @end

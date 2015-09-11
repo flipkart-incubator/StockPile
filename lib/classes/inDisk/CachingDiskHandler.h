@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "Node.h"
-#import "CacheProtocol.h"
+#import "BaseCache.h"
 
-@interface CachingDiskHandler : NSObject <CacheProtocol>
+@interface CachingDiskHandler : BaseCache
+
+@property (nonatomic, copy) NSString* filePath;
 
 @end

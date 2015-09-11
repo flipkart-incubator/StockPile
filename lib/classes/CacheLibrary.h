@@ -6,7 +6,7 @@
 //
 //
 
-#import "CacheFactory.h"
+#import "StockPile.h"
 #import "CacheProtocol.h"
 #import "CachingEnum.h"
 #import "CachingManager.h"

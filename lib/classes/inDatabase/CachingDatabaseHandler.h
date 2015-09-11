@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "Node.h"
-#import "CacheProtocol.h"
+#import "BaseCache.h"
 
-@interface CachingDatabaseHandler : NSObject <CacheProtocol>
+@interface CachingDatabaseHandler : BaseCache
 
+@property (nonatomic, copy) NSString* dbName;
 
 @end

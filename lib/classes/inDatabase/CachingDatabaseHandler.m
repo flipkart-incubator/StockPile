@@ -18,8 +18,7 @@
 
 @implementation CachingDatabaseHandler
 
-
-@synthesize path = _path;
+@synthesize dbName = _dbName;
 
 - (CoreDatabaseInterface*) coreDatabaseInterface
 {
@@ -28,10 +27,10 @@
         
         NSURL* applicationDirectoryURL =  [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         
-        NSURL *urlToDB = [applicationDirectoryURL URLByAppendingPathComponent:_path];
+        NSURL *urlToDB = [applicationDirectoryURL URLByAppendingPathComponent:self.dbName];
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"CachingDatabase" withExtension:@"momd"];
         
-        [[CoreDataManager sharedManager] setupCoreDataWithKey:_path storeURL:urlToDB objectModel:modelURL];
+        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:urlToDB objectModel:[modelURL absoluteString]];
         
         _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:@"CachingDBHandler"];
     });

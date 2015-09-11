@@ -19,18 +19,6 @@
 
 @implementation LinkedHashMap
 
-- (instancetype) initWithCapacity: (int) capacity
-{
-    self = [self init];
-    
-    if (self)
-    {
-        _capacity = capacity;
-    }
-    
-    return self;
-}
-
 - (instancetype) init
 {
     self = [super init];
@@ -47,7 +35,7 @@
 
 - (BOOL) containsValue: (Node*) node
 {
-    NSString* key = node.key;
+    id<NSCopying, NSMutableCopying, NSSecureCoding> key = node.key;
     
     if ([_lookupDictionary objectForKey:key] != nil)
     {
@@ -88,7 +76,7 @@
         @throw [[CachingException alloc] initWithReason:@"Node to be inserted cannot be nil"];
     }
     
-    NSString* key = node.key;
+    id<NSCopying, NSMutableCopying, NSSecureCoding> key = node.key;
     
     [_lookupDictionary setObject:node forKey:key];
     
@@ -115,7 +103,7 @@
 
 - (void) putNode: (Node*) node atIndex: (int) index
 {
-    NSString* key = node.key;
+    id<NSCopying, NSMutableCopying, NSSecureCoding> key = node.key;
     
     [_lookupDictionary setObject:node forKey:key];
     
@@ -182,7 +170,7 @@
 
 - (float) removeEndNode
 {
-    NSString* key = _endNode.key;
+    id<NSCopying, NSMutableCopying, NSSecureCoding> key = _endNode.key;
     
     float sizeOccupied = _endNode.sizeOfData;
     

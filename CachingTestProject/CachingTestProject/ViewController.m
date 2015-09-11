@@ -7,7 +7,34 @@
 //
 
 #import "ViewController.h"
-#import <CacheLibrary.h>
+
+
+@interface DBCacheDataSourceImpl : NSObject<DBCacheDataSource, DiskCacheDataSource>
+
+@property (nonatomic) NSInteger pmaximumElementInMemory;
+@property (nonatomic) NSInteger pmaximumMemoryAllocated;
+@property (nonatomic, copy) NSString* pgetDBName;
+@property (nonatomic, copy) NSString* ppathForDiskCaching;
+
+@end
+
+@implementation DBCacheDataSourceImpl
+
+
+- (NSInteger) maximumElementInMemory;{
+    return self.pmaximumElementInMemory;
+}
+- (NSInteger) maximumMemoryAllocated;{
+    return self.pmaximumMemoryAllocated;
+}
+- (NSString*) getDBName;{
+    return self.pgetDBName;
+}
+- (NSString *)pathForDiskCaching{
+    return self.ppathForDiskCaching;
+}
+
+@end
 
 @interface ViewController ()
 - (IBAction)addToCacheClicked:(id)sender;
@@ -19,10 +46,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *valueToAdd;
 @property (weak, nonatomic) IBOutlet UITextField *valueToGet;
 
-@property (nonatomic,strong) CacheFactoryDataSource* dataSource;
+//@property (nonatomic,strong) CacheFactoryDataSource* dataSource;
 @property (nonatomic, strong) id <CacheProtocol> cachingManager;
 
 @end
+
+
 
 @implementation ViewController
 
@@ -48,33 +77,35 @@
 
 - (IBAction)addToCacheClicked:(id)sender
 {
-    
     NSString* key = _valueToAdd.text;
     
     Value* value = [[Value alloc] init];
     value.value = key;
     
-    Node* node = [[Node alloc] initWithKey:key value:value];
-    
-    [_cachingManager cacheNode:node];
+    [self.cachingManager cacheValue:value forKey:key];
 }
 
 - (IBAction)getValueClicked:(id)sender
 {
-    Node* node = [_cachingManager getNodeForKey:_valueToGet.text];
+    Value* data = [_cachingManager getValueForKey:_valueToGet.text];
     
-    _cachedValue.text = (NSString*)node.data.value;
+    _cachedValue.text = (NSString*)data.value;
 }
 
 - (IBAction)initCacheClicked:(id)sender
 {
-    _dataSource = [[CacheFactoryDataSource alloc] init];
-    _dataSource.maximumElementInMemory = [_countOfElements.text integerValue];
-    _dataSource.maximumMemoryAllocated = [_memoryAllocated.text integerValue];
-    _dataSource.pathForDiskCaching = [self applicationDocumentsDirectory];
-    _dataSource.dbIdentifier = @"testProjectDatabase.sqlite";
+//    StockPile getInMemoryDBCopyCacheUsingData:(id<DBCacheDataSource>);
+    
+    DBCacheDataSourceImpl *dataSource = [[DBCacheDataSourceImpl alloc] init];
+    dataSource.pmaximumElementInMemory = [_countOfElements.text integerValue];
+    dataSource.pmaximumMemoryAllocated = [_memoryAllocated.text integerValue];
+    dataSource.ppathForDiskCaching = [self applicationDocumentsDirectory];
+    dataSource.pgetDBName = @"testProjectDatabase.sqlite";
 
-    _cachingManager = [CacheFactory getCacheWithPolicy:DISK_PERSISTENCE cacheFactoryDataSource:_dataSource];
+    self.cachingManager = [StockPile getInMemoryDiskCopyCacheUsingData:dataSource];
+//    _cachingManager = [CacheFactory getCacheWithPolicy:DISK_PERSISTENCE cacheFactoryDataSource:_dataSource];
 }
+
+
 
 @end

@@ -8,12 +8,8 @@
 
 #import "CachingManager.h"
 #import "CacheProtocol.h"
-
-@interface CachingManager()
-
-@property (nonatomic, strong) NSArray* cacheArray;
-
-@end
+#import "CachingException.h"
+#import "NSObject+CacheBuilder.h"
 
 @interface CachingManager()
 {
@@ -23,84 +19,42 @@
 @end
 
 @implementation CachingManager
-@synthesize path;
 
-- (instancetype) initWithCacheArray: (NSArray*) cacheArray;
+- (instancetype)init
 {
     self = [super init];
-    
     if (self)
     {
-        _cacheArray = cacheArray;
-        
         serialQueue = dispatch_queue_create("com.caching", DISPATCH_QUEUE_SERIAL);
     }
-    
     return self;
 }
 
-- (BOOL) cacheNode: (Node*) node
+- (BOOL) cacheValue:(Value*) value forKey:(id<NSCopying, NSMutableCopying, NSSecureCoding>)key;
 {
+    __block BOOL cached = NO;
     dispatch_sync(serialQueue, ^{
-        
-        if (_isFallback)
-        {
-            [[_cacheArray objectAtIndex:0] cacheNode:node];
-        }
-        else
-        {
-            for (id<CacheProtocol> cache in _cacheArray)
-            {
-                [cache cacheNode:node];
-            }
-        }
+        cached = [self.firstResponderCacheAlgo cacheValue:value forKey:key];
     });
-    
-    return true;
+    return cached;
 }
 
-- (Node*) getNodeForKey:(NSString*) key
+- (Value*) getValueForKey:(id<NSCopying, NSMutableCopying, NSSecureCoding>) key;
 {
-    __block Node* node = nil;
+    __block Value *value = nil;
     dispatch_sync(serialQueue, ^{
-        
-        int i = 0;
-        while (i <  [_cacheArray count] && node.data == nil)
-        {
-            id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
-            node = [cache getNodeForKey:key];
-        }
+        value = [self.firstResponderCacheAlgo getValueForKey:key];
     });
-    
-    return node;
+    return value;
 }
 
-- (void) clearCache
+- (void) clearCacheAndCascade;
 {
     dispatch_sync(serialQueue, ^{
-        
-        int i = 0;
-        if (i <  [_cacheArray count])
-        {
-            id<CacheProtocol> cache = [_cacheArray objectAtIndex:i++];
-            [cache clearCache];
-        }
+        [self.firstResponderCacheAlgo clearCacheAndCascade];
     });
 }
 
-#pragma mark CacheFallbackProtocal methods
-
-- (void) handleEvictedNodes: (NSArray*) evictedNodes evictedAtIndex:(int) index
-{
-    if (!_isFallback || index >= [_cacheArray count] -1)
-        return;
-    
-    id<CacheProtocol> nextCache = _cacheArray[index +1];
-    
-    for (Node* node in evictedNodes)
-    {
-        [nextCache cacheNode:node];
-    }
-}
 
 @end
+

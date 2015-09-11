@@ -11,14 +11,16 @@
 
 @implementation BaseCache
 
-@synthesize path;
+//@synthesize path;
+
+#pragma mark implementation of CacheProtocol
 
 - (BOOL) cacheNode: (Node*) node
 {
     @throw [[CachingException alloc] initWithReason:@"Must be called to a sub class of BaseCache"];
 }
 
-- (Node*) getNodeForKey:(NSString*) key
+- (Node*) getNodeForKey:(id<NSCopying, NSMutableCopying, NSSecureCoding>) key
 {
     @throw [[CachingException alloc] initWithReason:@"Must be called to a sub class of BaseCache"];
 }
@@ -26,6 +28,44 @@
 - (void) clearCache
 {
     @throw [[CachingException alloc] initWithReason:@"Must be called to a sub class of BaseCache"];
+}
+
+#pragma mark implementation of CacheAlgorithmProtocol
+
+- (BOOL) cacheValue:(Value*) value forKey:(NSString *)key{
+    if (!key) {
+        @throw [[CachingException alloc] initWithReason:@"Key can't be nil"];
+    }
+    
+    Node *node = [Node new];
+    node.key = key;
+    node.data = value;
+    
+    BOOL cached = [self cacheNode:node];
+    if (cached) {
+        
+#warning add the code to add data to the fallback and mirror cache on a separate thread
+        
+    }
+    return cached;
+}
+
+- (Value*) getValueForKey:(NSString*) key{
+    Node *node = [self getNodeForKey:key];
+    if (!node) {
+#warning you might want to get the data from the fallback or mirroed cache
+    }
+    
+    if (node) {
+        return node.data;
+    }
+    return nil;
+}
+
+- (void) clearCacheAndCascade{
+    [self clearCache];
+    [self.mirroredCache clearCache];
+    [self.fallBackCache clearCache];
 }
 
 @end

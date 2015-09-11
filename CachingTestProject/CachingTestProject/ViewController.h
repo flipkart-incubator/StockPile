@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StockPile.h>
 
 @interface ViewController : UIViewController
 

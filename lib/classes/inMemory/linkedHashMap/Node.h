@@ -30,7 +30,7 @@
 /**
  * The key of the row in which data is saved
  */
-@property (nonatomic, strong) NSString*     key;
+@property (nonatomic, copy) NSString* key;
 
 /**
  * The data attached with the current node.
