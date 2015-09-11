@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Node.h"
-#import "CacheProtocol.h"
 #import "CachingDatabaseHandler.h"
 #import "CachingDiskHandler.h"
 #import "BaseCache.h"

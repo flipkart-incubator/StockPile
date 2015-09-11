@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CacheProtocol.h"
 #import "BaseCache.h"
 
 

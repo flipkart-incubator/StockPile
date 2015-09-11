@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CacheProtocol.h"
+#import "Value.h"
+#import "Node.h"
 
 #pragma mark protocols
 

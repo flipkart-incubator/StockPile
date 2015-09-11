@@ -7,7 +7,6 @@
 //
 
 #import "CachingManager.h"
-#import "CacheProtocol.h"
 #import "CachingException.h"
 #import "NSObject+CacheBuilder.h"
 
@@ -30,7 +29,7 @@
     return self;
 }
 
-- (BOOL) cacheValue:(Value*) value forKey:(id<NSCopying, NSMutableCopying, NSSecureCoding>)key;
+- (BOOL) cacheValue:(Value*) value forKey:(NSString *)key;
 {
     __block BOOL cached = NO;
     dispatch_sync(serialQueue, ^{
@@ -39,7 +38,7 @@
     return cached;
 }
 
-- (Value*) getValueForKey:(id<NSCopying, NSMutableCopying, NSSecureCoding>) key;
+- (Value*) getValueForKey:(NSString *) key;
 {
     __block Value *value = nil;
     dispatch_sync(serialQueue, ^{

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CachingEnum.h"
 #import "Value.h"
 
 @class Node;
