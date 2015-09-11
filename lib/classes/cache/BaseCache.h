@@ -73,17 +73,3 @@
 @property (nonatomic, strong) BaseCache* mirroredCache;
 
 @end
-
-//
-//@interface CacheDataSource : NSObject
-//
-//@property (nonatomic, assign) NSInteger maximumElementInMemory;
-//@property (nonatomic, assign) NSInteger maximumMemoryAllocated;
-//@property (nonatomic, strong) NSString* pathForDiskCaching;
-//@property (nonatomic, strong) NSString* pathForDBCaching;
-//
-//
-////@property (nonatomic, strong) id <CacheAlgorithmProtocol> cachingDBDelegate;
-////@property (nonatomic, strong) id <CacheAlgorithmProtocol> cachingDiskDelegate;
-//
-//@end
