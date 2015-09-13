@@ -103,7 +103,7 @@ Pod::Spec.new do |s|
   #
 
   # s.resources  = "icon.png"
-  s.resource = "lib/classes/inDatabase/CachingDatabase.xcdatamodeld"
+  s.resource = "lib/classes/cache/inDatabase/CachingDatabase.xcdatamodeld"
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
