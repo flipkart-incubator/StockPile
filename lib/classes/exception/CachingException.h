@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+It is a subclass of NSExpcetion that is used to raise all kinds of caching related exceptions
+ */
 @interface CachingException : NSException
 
 /**
