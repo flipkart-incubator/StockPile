@@ -49,15 +49,6 @@
 {
     Node* node = [_lookupDictionary objectForKey:key];
     
-    if (node == nil)
-    {
-        Value* value = [_linkedHashMapDelegate getDataWithKey:key];
-        
-        node = [[Node alloc] initWithKey:key value:value];
-        
-        [_lookupDictionary setObject:node forKey:key];
-    }
-    
     return node;
 }
 
@@ -95,9 +86,10 @@
     }
     else
     {
-        _endNode.nextNode = node;
-        node.previousNode = _endNode;
-        _endNode = node;
+        node.nextNode = _startNode;
+        node.previousNode = nil;
+        _startNode.previousNode = node;
+        _startNode = node;
     }
 }
 
