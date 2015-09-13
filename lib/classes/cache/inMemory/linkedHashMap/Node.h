@@ -10,66 +10,42 @@
 #import "Value.h"
 
 @class Node;
-@protocol NodeProtocol <NSObject>
-
-@required
-
-/**
- * saves the value into database
- * @param data the data that needs to be saved into database
- */
-- (void) saveData:(Value*) data;
-
-@end
 
 @interface Node : NSObject
 
 #pragma mark data related variables
 
-/**
- * The key of the row in which data is saved
- */
+/*! This property uniquely identifies a data*/
 @property (nonatomic, copy) NSString* key;
 
-/**
- * The data attached with the current node.
+/*! This property is an instance of Value class and holds the actual data */
+@property (nonatomic, strong) Value* data;
+
+/*! This property holds the size of data 
+    This property is automatically calculated in the constructor. However, this property can also be
+    set from outside.
  */
-@property (nonatomic, strong) Value*        data;
+@property (nonatomic, assign) float sizeOfData;
 
-/**
- * The size of data in MB, attached with current node
- */
-@property (nonatomic, assign) float         sizeOfData;
+/*! This property holds the reference to previous Node */
+@property (nonatomic, weak) Node* previousNode;
 
-#pragma mark delegate for NodeProtocol
+/*! This property holds the reference to next Node */
+@property (nonatomic, strong) Node* nextNode;
 
-/**
- * Stores the delegate for current node
- */
-@property (nonatomic, assign) id <NodeProtocol> nodeProtocolDelegate;
-
-#pragma mark splay tree related variables
-
-/**
- * Stores the previous node of the current node
- */
-@property (nonatomic, weak) Node*         previousNode;
-
-/**
- * Stores the next node of the current node
- */
-@property (nonatomic, strong) Node*         nextNode;
-
-/**
- * @param key the NSString key with which the current node needs to be initialized
- * @param value value with which the node needs to be initialized
- * @return The newly-initialized CoreDataException
+/*!
+ It returns new instance of a Node class.
+ 
+ @code
+ [Node initWithKey:@"key" value:someValue];
+ @endcode
+ 
+ @param key NSString that will uniquely identify this Node
+ 
+ @param data Instance of Value class that will hold the actual data that needs to be cached.
+ 
+ @return new instance of Node class
  */
 - (instancetype) initWithKey: (NSString*) key value: (Value*) data;
-
-/**
- * @return the current value of the node
- */
-- (Value*) getValue;
 
 @end

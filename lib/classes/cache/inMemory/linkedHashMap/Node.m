@@ -26,9 +26,4 @@
     return self;
 }
 
-- (Value*) getValue
-{
-    return _data;
-}
-
 @end
