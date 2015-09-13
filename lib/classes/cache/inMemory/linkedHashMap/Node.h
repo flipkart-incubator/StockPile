@@ -11,6 +11,11 @@
 
 @class Node;
 
+/*!
+ @brief This class is primarily used to hold the key and cached value against that key
+ 
+ @discussion This basic purpose of this class is used to hold key and cached value agains the key. To support the LinkedHashMap data structure, this class also holds reference to previous and next nodes. It also holds metdata like size of data.
+ */
 @interface Node : NSObject
 
 #pragma mark data related variables
