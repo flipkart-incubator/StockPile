@@ -14,15 +14,30 @@
 
 #pragma mark BuilderDataSources
 @protocol CacheDataSource <NSObject>
+
+/*!
+ @return the maximum number of elements allowed in memory.
+ */
 - (NSInteger) maximumElementInMemory;
+
+/*!
+ @return the maximum memory usage allowed.
+ */
 - (NSInteger) maximumMemoryAllocated;
 @end
 
 @protocol DiskCacheDataSource <CacheDataSource>
+
+/*!
+ @return the path for disk caching.
+ */
 - (NSString*) pathForDiskCaching;
 @end
 
 @protocol DBCacheDataSource <CacheDataSource>
+/*!
+ @return the database name.
+ */
 - (NSString*) getDBName;
 @end
 
@@ -34,18 +49,31 @@ typedef void (^BuilderBlock)(CachingManager *);
 
 @property (nonatomic, strong) id <CacheDataSource> cacheDataSource;
 
-/**
- * This method should ideally not be overridden unless you know what you are doing
+/*!
+ This method creates a new instanec of CacheManagerBuilder using the cache data source.
+ <b>This method should ideally not be overridden unless you know what you are doing</b>
+ 
+ @param cacheDataSource instance of CacheDataSource
+ 
+ @return New instance of CacheManagerBuilder
  */
 - (instancetype)initWithCacheDataSource:(id<CacheDataSource>) cacheDataSource;
 
-/**
- * This method should ideally not be overridden unless you know what you are doing
+/*!
+ This method creates and returns a new instance of class implementing CacheProtocol.
+ 
+ <b>This method should ideally not be overridden unless you know what you are doing </b>
+ 
+ @return new instance of class implementing CacheProtocol
  */
 - (id<CacheProtocol>)build;
 
 /**
- * Override this method while creating a custom builder
+ This function is responsible for creating BuilderBlock. 
+ <b>It must be overriden by subclasses of CacheManagerBuilder. A CachingException is thrown is this method is called on CacheManagerBuilder</b>
+ @param cacheDataSource instance of class implementing CacheDataSource
+ 
+ @return BuilderBlock
  */
 - (BuilderBlock) getBuilderBlock:(id<CacheDataSource>) cacheDataSource;
 
