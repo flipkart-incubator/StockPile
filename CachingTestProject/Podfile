@@ -4,10 +4,10 @@ source 'https://github.com/Flipkart/fk-private-cocoapods.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'CachingTestProject' do
-    pod 'fk-ios-lib-caching', :path => "../fk-ios-lib-caching.podspec"
+    pod 'StockPile', :path => "../StockPile.podspec"
 end
 
 
 target 'CachingTestProjectTests' do
-    pod 'fk-ios-lib-caching', :path => "../fk-ios-lib-caching.podspec"
+    pod 'StockPile', :path => "../StockPile.podspec"
 end
