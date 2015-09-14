@@ -15,28 +15,27 @@
 @protocol CacheProtocol <NSObject>
 
 /*!
- * This function is used to cache value against a uniquely identifying key.
- *
- * @param value Value that needs to be cached
- *
- * @param key Key that needs to be used for retrieval
- *
- * @return returns a YES, if the data was properly cached else NO.
+ This function is used to cache value against a uniquely identifying key.
+ @param value Value that needs to be cached
+
+ @param key Key that needs to be used for retrieval
+
+ @return returns a YES, if the data was properly cached else NO.
  */
 - (BOOL) cacheValue:(Value*) value forKey:(NSString*)key;
 
 /*!
- * This method will retrieve the cached value against key. If the value is not present in memory,
- * it will look out in the mirrored and then the fallback cache.
- *
- * @param key NSString type for which the cached value needs to be retrieved
- *
- * @return Retrieved cached value as Node. It returns nil if no cached value is found.
+ This method will retrieve the cached value against key. If the value is not present in memory,
+ it will look out in the mirrored and then the fallback cache.
+
+ @param key NSString type for which the cached value needs to be retrieved
+
+ @return Retrieved cached value as Node. It returns nil if no cached value is found.
  */
 - (Value*) getValueForKey:(NSString*) key;
 
 /*!
- * This method will clear all values from this cache and the mirrored and fallback cache in a cascading manner. This would be a blocking call
+ This method will clear all values from this cache and the mirrored and fallback cache in a cascading manner. This would be a blocking call
  */
 - (void) clearCacheAndCascade;
 
@@ -47,22 +46,22 @@
 @required
 
 /*!
- * @param node Node type that needs to be cached
+ @param node Node type that needs to be cached
  */
 - (BOOL) cacheNode: (Node*) node;
 
 /*!
- * This method will retrieve the cached value against key. If the value is not present in memory,
- * it will look out in mirrored or fallback cache in cascading manner.
- *
- * @param key String value for which the cached value needs to be retrieved
- *
- * @return Retrieved cached value as Node. It returns nil if no cached value is found.
+ This method will retrieve the cached value against key. If the value is not present in memory,
+ it will look out in mirrored or fallback cache in cascading manner.
+ 
+ @param key String value for which the cached value needs to be retrieved
+ 
+ @return Retrieved cached value as Node. It returns nil if no cached value is found.
  */
 - (Node*) getNodeForKey:(NSString*) key;
 
 /*!
- * This method will clear all values from cache
+ This method will clear all values from cache
  */
 - (void) clearCache;
 
