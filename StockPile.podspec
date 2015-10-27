@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "StockPile"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "Caching Library in iOS"
 
   s.description  = <<-DESC
