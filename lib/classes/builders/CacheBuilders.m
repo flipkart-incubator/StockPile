@@ -99,6 +99,9 @@
         CachingDiskHandler* diskCache = [[CachingDiskHandler alloc] initUsingBlock:^(CachingDiskHandler* cache)
                                          {
                                              cache.filePath = [cacheDataSourceBlock pathForDiskCaching];
+                                             cache.maxElementsInMemory = [cacheDataSourceBlock maximumElementInMemory];
+                                             cache.maxMemoryAllocated = [cacheDataSourceBlock maximumMemoryAllocated];
+
                                          }];
         
         inMemoryCache.mirroredCache = diskCache;

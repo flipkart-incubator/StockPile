@@ -27,7 +27,7 @@
         
         NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         NSURL* storeURL = [documentsURL URLByAppendingPathComponent:self.dbName];
-        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL objectModelIdentifier:@"CachingDatabase"];
+        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL  objectModelIdentifier:@"CachingDatabase"];
         
         _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:self.dbName];
     });
