@@ -54,7 +54,6 @@
         if (![_managedObjectContext save:&error])
         {
             isCachingSuccessful = false;
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
         }
     });
     
