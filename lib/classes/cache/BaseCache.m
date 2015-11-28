@@ -32,8 +32,10 @@
 
 #pragma mark implementation of CacheAlgorithmProtocol
 
-- (BOOL) cacheValue:(Value*) value forKey:(NSString *)key{
-    if (!key) {
+- (BOOL) cacheValue:(Value*) value forKey:(NSString *)key
+{
+    if (!key)
+    {
         @throw [[CachingException alloc] initWithReason:@"Key can't be nil"];
     }
     
@@ -42,30 +44,45 @@
     node.data = value;
     
     BOOL cached = [self cacheNode:node];
-    if (cached) {
-        // call mirror
-        [self.mirroredCache cacheNode:node];
+    
+    if (cached)
+    {
+        if (self.mirroredCache)
+        {
+            // call mirror
+            [self.mirroredCache cacheNode:node];
+        }
         
-#warning add the code to add data to the fallback and mirror cache on a separate thread
+        #warning add the code to add data to the fallback and mirror cache on a separate thread
         
     }
     return cached;
 }
 
-- (Value*) getValueForKey:(NSString*) key{
+- (Value*) getValueForKey:(NSString*) key
+{
     Node *node = [self getNodeForKey:key];
-    if (!node.data) {
-        node = [self.mirroredCache getNodeForKey:key];
-#warning you might want to get the data from the fallback or mirroed cache
+    
+    if (!node.data)
+    {
+        if (self.mirroredCache)
+        {
+            node = [self.mirroredCache getNodeForKey:key];
+        }
+        
+        #warning you might want to get the data from the fallback or mirroed cache
     }
     
-    if (node) {
+    if (node)
+    {
         return node.data;
     }
+    
     return nil;
 }
 
-- (void) clearCacheAndCascade{
+- (void) clearCacheAndCascade
+{
     [self clearCache];
     [self.mirroredCache clearCache];
     [self.fallBackCache clearCache];

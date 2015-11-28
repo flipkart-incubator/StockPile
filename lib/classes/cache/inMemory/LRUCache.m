@@ -24,12 +24,15 @@
 
 @synthesize linkedHashMap = _linkedHashMap;
 
-- (instancetype)init{
+- (instancetype)init
+{
     self = [super init];
+    
     if (self)
     {
         self.linkedHashMap = [[LinkedHashMap alloc] init];
     }
+    
     return self;
 }
 
