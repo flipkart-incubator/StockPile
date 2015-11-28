@@ -50,7 +50,7 @@ typedef void (^BuilderBlock)(CachingManager *);
 @property (nonatomic, strong) id <CacheDataSource> cacheDataSource;
 
 /*!
- This method creates a new instanec of CacheManagerBuilder using the cache data source.
+ This method creates a new instance of CacheManagerBuilder using the cache data source.
  <b>This method should ideally not be overridden unless you know what you are doing</b>
  
  @param cacheDataSource instance of CacheDataSource
