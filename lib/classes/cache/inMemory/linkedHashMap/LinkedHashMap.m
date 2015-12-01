@@ -113,7 +113,9 @@
     }
     
     if (root == node)
+    {
         return;
+    }
     
     //deleting node from its original position
     node.previousNode.nextNode = node.nextNode;

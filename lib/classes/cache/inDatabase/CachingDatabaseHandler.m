@@ -28,7 +28,9 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeKey:self.dbName objectModelIdentifier:@"CachingDatabase"];
+        NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        NSURL* storeURL = [documentsURL URLByAppendingPathComponent:self.dbName];
+        [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL  objectModelIdentifier:@"CachingDatabase"];
         
         _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:self.dbName];
     });
@@ -61,7 +63,6 @@
         if (![_managedObjectContext save:&error])
         {
             isCachingSuccessful = false;
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
         }
         else
         {

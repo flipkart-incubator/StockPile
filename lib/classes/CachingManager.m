@@ -24,7 +24,7 @@
     self = [super init];
     if (self)
     {
-        serialQueue = dispatch_queue_create("com.caching", DISPATCH_QUEUE_SERIAL);
+        serialQueue = dispatch_queue_create("com.flipkart.caching", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -35,6 +35,7 @@
     dispatch_sync(serialQueue, ^{
         cached = [self.firstResponderCacheAlgo cacheValue:value forKey:key];
     });
+    
     return cached;
 }
 
@@ -44,6 +45,7 @@
     dispatch_sync(serialQueue, ^{
         value = [self.firstResponderCacheAlgo getValueForKey:key];
     });
+    
     return value;
 }
 

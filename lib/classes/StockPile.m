@@ -10,15 +10,18 @@
 
 @implementation StockPile
 
-+ (id<CacheProtocol>) getInMemoryCacheUsingData:(id<CacheDataSource>) dataSource{
++ (id<CacheProtocol>) getInMemoryCacheUsingData:(id<CacheDataSource>) dataSource
+{
     return [[[InMemoryCacheBuilder alloc]initWithCacheDataSource:dataSource] build];
 }
 
-+ (id<CacheProtocol>) getInMemoryDiskCopyCacheUsingData:(id<DiskCacheDataSource>) dataSource{
++ (id<CacheProtocol>) getInMemoryDiskCopyCacheUsingData:(id<DiskCacheDataSource>) dataSource
+{
     return [[[InMemoryDiskCopyCacheBuilder alloc]initWithCacheDataSource:dataSource] build];
 }
 
-+ (id<CacheProtocol>) getInMemoryDBCopyCacheUsingData:(id<DBCacheDataSource>) dataSource{
++ (id<CacheProtocol>) getInMemoryDBCopyCacheUsingData:(id<DBCacheDataSource>) dataSource
+{
     return [[[InMemoryDbCopyCacheBuilder alloc]initWithCacheDataSource:dataSource] build];
 }
 
