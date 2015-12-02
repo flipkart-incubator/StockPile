@@ -164,6 +164,11 @@
 
 - (float) removeEndNode
 {
+    if (_endNode == nil)
+    {
+        return -1;
+    }
+    
     id<NSCopying, NSMutableCopying, NSSecureCoding> key = _endNode.key;
     
     float sizeOccupied = _endNode.sizeOfData;

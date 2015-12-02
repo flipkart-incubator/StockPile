@@ -25,6 +25,6 @@ The maximum number of elements that can be stored in memory.
 /*!
 The maximum memory that can be used to store elements
  */
-@property (nonatomic, assign) NSInteger maxMemoryAllocated;
+@property (nonatomic, assign) float maxMemoryAllocated;
 
 @end
