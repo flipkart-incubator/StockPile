@@ -21,16 +21,15 @@
 @synthesize dbName = _dbName;
 
 - (CoreDatabaseInterface*) coreDatabaseInterface
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
+{  
+    if (!_coreDatabaseInterface)
+    {
         NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         NSURL* storeURL = [documentsURL URLByAppendingPathComponent:self.dbName];
         [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL objectModelIdentifier:@"CachingDatabase"];
         
         _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:self.dbName];
-    });
+    }
     
     return _coreDatabaseInterface;
 }
