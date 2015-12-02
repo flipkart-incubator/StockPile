@@ -39,9 +39,7 @@
         @throw [[CachingException alloc] initWithReason:@"Key can't be nil"];
     }
     
-    Node *node = [Node new];
-    node.key = key;
-    node.data = value;
+    Node *node = [[Node alloc] initWithKey:key value:value];
     
     BOOL cached = [self cacheNode:node];
     
@@ -53,7 +51,7 @@
             [self.mirroredCache cacheNode:node];
         }
         
-        #warning add the code to add data to the fallback and mirror cache on a separate thread
+#warning add the code to add data to the fallback and mirror cache on a separate thread
         
     }
     return cached;
@@ -70,7 +68,7 @@
             node = [self.mirroredCache getNodeForKey:key];
         }
         
-        #warning you might want to get the data from the fallback or mirroed cache
+#warning you might want to get the data from the fallback or mirroed cache
     }
     
     if (node)

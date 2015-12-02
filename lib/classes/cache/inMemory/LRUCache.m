@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) LinkedHashMap* linkedHashMap;
 @property (nonatomic, assign) int currentSize;
-@property (nonatomic, assign) int currentMemoryUsage;
+@property (nonatomic, assign) float currentMemoryUsage;
 @property (nonatomic, assign) int hitCount;
 @property (nonatomic, assign) int missCount;
 
@@ -46,9 +46,24 @@
     
     float memoryNeeded = node.sizeOfData;
     
+    BOOL canCache = YES;
+    
     while ((_maxMemoryAllocated - _currentMemoryUsage) < memoryNeeded)
     {
-        _currentMemoryUsage -= [[self linkedHashMap] removeEndNode];
+        float memoryReduced = [[self linkedHashMap] removeEndNode];
+        
+        if (memoryNeeded < 0)
+        {
+            canCache = NO;
+            break;
+        }
+        
+        _currentMemoryUsage -= memoryReduced;
+    }
+    
+    if (!canCache)
+    {
+        return NO;
     }
     
     [[self linkedHashMap] putNode:node];
