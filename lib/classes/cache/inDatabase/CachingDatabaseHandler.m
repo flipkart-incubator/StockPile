@@ -41,9 +41,16 @@
     dispatch_sync([[self coreDatabaseInterface] getSerialQueue], ^{
         
         NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
-        CacheTable* cacheTableEntity = [NSEntityDescription insertNewObjectForEntityForName:@"CacheTable" inManagedObjectContext:_managedObjectContext];
+        
+        CacheTable* cacheTableEntity = [self getDBRowForKey:node.key];
+        
+        if (cacheTableEntity == nil)
+        {
+            cacheTableEntity = [NSEntityDescription insertNewObjectForEntityForName:@"CacheTable" inManagedObjectContext:_managedObjectContext];
+        }
         
         cacheTableEntity.key = node.key;
+        
         //cacheTableEntity.ttlInterval = node.data.ttlInterval;
         cacheTableEntity.ttlDate = node.data.ttlDate;
         cacheTableEntity.value = [NSKeyedArchiver archivedDataWithRootObject:node.data.value];
@@ -92,6 +99,31 @@
     });
     
     return node;
+}
+
+- (CacheTable*) getDBRowForKey:(NSString*) key
+{
+    CacheTable* cachedValue = nil;
+    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
+                                              inManagedObjectContext:_managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"key == %@", key];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError* error;
+    
+    NSArray *fetchedObjects = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if (!error && fetchedObjects != nil && fetchedObjects.count == 1)
+    {
+        cachedValue = (CacheTable*)[fetchedObjects objectAtIndex:0];
+    }
+    
+    return cachedValue;
 }
 
 - (void) clearCache
