@@ -99,7 +99,7 @@
     {
         NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
         
-        [[SDImageCache sharedImageCache] storeImage:str forKey:str];
+        [[SDImageCache sharedImageCache] storeImage:img forKey:str];
     }
     
     NSDate*methodFinish = [NSDate date];
@@ -131,7 +131,7 @@
     int stockPileMiss = 0;
     
     methodStart = [NSDate date];
-    for (int i = 0 ; i < countOfElementsToCache ; i++)
+    for (int i = 0 ; i < 1 ; i++)
     {
         NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
         
@@ -146,7 +146,7 @@
     
     int stockPileHit;
     methodStart = [NSDate date];
-    for (int i = 0 ; i < countOfElementsToCache ; i++)
+    for (int i = 0 ; i < 1 ; i++)
     {
         NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
         

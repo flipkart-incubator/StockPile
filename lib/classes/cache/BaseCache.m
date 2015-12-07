@@ -13,7 +13,7 @@
 
 //@synthesize path;
 
-#pragma mark implementation of CacheProtocol
+#pragma mark implementation of CacheAlgorithmProtocol
 
 - (BOOL) cacheNode: (Node*) node
 {
@@ -30,7 +30,7 @@
     @throw [[CachingException alloc] initWithReason:@"Must be called to a sub class of BaseCache"];
 }
 
-#pragma mark implementation of CacheAlgorithmProtocol
+#pragma mark implementation of CacheProtocol
 
 - (BOOL) cacheValue:(Value*) value forKey:(NSString *)key
 {
@@ -66,12 +66,16 @@
         if (self.mirroredCache)
         {
             node = [self.mirroredCache getNodeForKey:key];
+            
+            if (node.data)
+            {
+                [self cacheNode:node];
+            }
         }
-        
         #warning you might want to get the data from the fallback or mirroed cache
     }
     
-    if (node)
+    if (node.data)
     {
         return node.data;
     }

@@ -29,6 +29,7 @@
     return self;
 }
 
+#warning do we need to keep dispatch_sync
 - (BOOL) cacheValue:(Value*) value forKey:(NSString *)key;
 {
     __block BOOL cached = NO;

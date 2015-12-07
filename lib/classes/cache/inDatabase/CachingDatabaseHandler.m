@@ -25,7 +25,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        NSURL* documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
         NSURL* storeURL = [documentsURL URLByAppendingPathComponent:self.dbName];
         [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL objectModelIdentifier:@"CachingDatabase"];
         
