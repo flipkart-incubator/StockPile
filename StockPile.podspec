@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "StockPile"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "Caching Library in iOS"
 
   s.description  = <<-DESC
@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.source_files  = "classes", "lib/classes/**/*.{h,m}"
   s.exclude_files = "lib/classes/exclude"
   s.resource = "lib/classes/cache/inDatabase/CachingDatabase.xcdatamodeld"
-  s.dependency "CoreDataLite", "~>0.0"
+  s.dependency "CoreDataLite", "~>1.0.1"
 end
