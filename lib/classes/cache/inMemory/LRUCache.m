@@ -38,16 +38,20 @@
 
 - (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
+    NSMutableArray *removedNodes = [NSMutableArray new];
+    
     if (_currentSize == _maxElementsInMemory)
     {
-        [[self linkedHashMap]  removeEndNode];
+        Node* node = [[self linkedHashMap]  removeEndNode];
+        
+        [removedNodes addObject:node];
         _currentSize--;
     }
     
     float memoryNeeded = node.sizeOfData;
     
     BOOL canCache = YES;
-    NSMutableArray *removedNodes = [NSMutableArray new];
+    
     
     while ((_maxMemoryAllocated - _currentMemoryUsage) < memoryNeeded)
     {

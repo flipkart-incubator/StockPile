@@ -51,11 +51,25 @@
 
 - (NSInteger) maximumElementInMemory
 {
-    return 100000;
+    if (_pmaximumElementInMemory <= 0)
+    {
+        return 100000;
+    }
+    else
+    {
+        return _pmaximumElementInMemory;
+    }
 }
 - (NSInteger) maximumMemoryAllocated
 {
-    return 250;
+    if (_pmaximumMemoryAllocated <= 0)
+    {
+        return 250;
+    }
+    else
+    {
+        return _pmaximumMemoryAllocated;
+    }
 }
 
 @end
@@ -123,8 +137,6 @@
     InMemoryCacheDataSourceImpl *dataSource = [[InMemoryCacheDataSourceImpl alloc] init];
     automatedTestCachingManager = [StockPile getInMemoryCacheUsingData:dataSource];
     
-    countOfElementsToCache = 10000;
-    
     serialQueue = dispatch_queue_create("com.flipkart.caching", DISPATCH_QUEUE_SERIAL);
 }
 
@@ -167,7 +179,15 @@
     dataSource.ppathForDiskCaching = [self applicationDocumentsDirectory];
     dataSource.pgetDBName = @"testProjectDatabase.sqlite";
     
-    cachingManager = [StockPile getInMemoryDiskCopyCacheUsingData:dataSource];
+    //cachingManager = [StockPile getInMemoryDiskCopyCacheUsingData:dataSource];
+    
+    //cachingManager = [StockPile getInMemoryDBOverflowCacheUsingData:dataSource];
+    
+    InMemoryCacheDataSourceImpl *inMemoryDataSource = [[InMemoryCacheDataSourceImpl alloc] init];
+    inMemoryDataSource.pmaximumElementInMemory = [_countOfElements.text integerValue];
+    inMemoryDataSource.pmaximumMemoryAllocated = [_memoryAllocated.text integerValue];
+    
+    cachingManager = [StockPile getInMemoryCacheUsingData:inMemoryDataSource];
 }
 
 - (IBAction)runTestClicked:(id)sender

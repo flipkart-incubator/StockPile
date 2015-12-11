@@ -145,3 +145,41 @@
 }
 
 @end
+
+@implementation InMemoryDbOverflowCacheBuilder
+
+- (BuilderBlock) getBuilderBlock:(id<CacheDataSource>) cacheDataSource
+{
+    
+    if (![cacheDataSource conformsToProtocol:@protocol(DBCacheDataSource)])
+    {
+        @throw [[CachingException alloc] initWithReason:@"Datasource must implement DBCacheDataSource for db based caching"];
+    }
+    
+    id<DBCacheDataSource> cacheDataSourceBlock = (id<DBCacheDataSource>)cacheDataSource;
+    return ^(CachingManager* cachingManager)
+    {
+        
+        // 1. create LRU memory cache
+        // 2. create disk based lru cache
+        // 3. set db cache as the copy of memory cache
+        // 4. set the memory cache as the first responder
+        
+        LRUCache* inMemoryCache = [[LRUCache alloc] initUsingBlock:^(LRUCache* cache)
+                                   {
+                                       cache.maxElementsInMemory = [cacheDataSourceBlock maximumElementInMemory];
+                                       cache.maxMemoryAllocated = [cacheDataSourceBlock maximumMemoryAllocated];
+                                   }];
+        
+        
+        CachingDatabaseHandler* dbCache = [[CachingDatabaseHandler alloc] initUsingBlock:^(CachingDatabaseHandler* cache)
+                                           {
+                                               cache.dbName = [cacheDataSourceBlock getDBName];
+                                           }];
+        
+        inMemoryCache.overFlowCache = dbCache;
+        cachingManager.firstResponderCacheAlgo = inMemoryCache;
+    };
+}
+
+@end

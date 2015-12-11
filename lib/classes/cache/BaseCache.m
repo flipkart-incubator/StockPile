@@ -63,7 +63,8 @@
     }
     
     // handle the data which overflowed from the current cache
-    if (nodesRemoved && self.overFlowCache) {
+    if (nodesRemoved && self.overFlowCache)
+    {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             for (Node* node in nodesRemoved) {
                 NSError *error;
@@ -83,25 +84,24 @@
         if (self.mirroredCache)
         {
             node = [self.mirroredCache getNodeForKey:key];
-            
-            if (node.data)
-            {
-                NSError *error = nil;
-                [self cacheNode:node error:&error];
-            }
         }
-        #warning you might want to get the data from the fallback or mirroed cache
+        else if (self.overFlowCache)
+        {
+            node = [self.overFlowCache getNodeForKey:key];
+        }
+        
+        if (node.data)
+        {
+            NSError *error = nil;
+            [self cacheNode:node error:&error];
+        }
     }
     
-    if (node.data)
-    {
-        return node.data;
-    }
-    
-    return nil;
+    return node.data;
 }
 
-- (void) nodeDeleted:(Node *)node{
+- (void) nodeDeleted:(Node *)node
+{
     @throw [[CachingException alloc] initWithReason:@"Must be implemented by the sub class of BaseCache"];
 }
 

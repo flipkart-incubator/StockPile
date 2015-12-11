@@ -69,4 +69,21 @@
  */
 + (id<CacheProtocol>) getInMemoryDBCopyCacheUsingData:(id<DBCacheDataSource>) dataSource;
 
+/*!
+ @brief It returns new instance of a class implemeting CacheProtocol.
+ 
+ @discussion This method is used to return instance of class with <b>in
+ memory and database overflow based caching</b>. This means that the elements that are being evicted from memory will be
+ saved in database.
+ 
+ @code
+ [StockPile getInMemoryDBOverFlowCacheUsingData<DBCacheDataSource> dataSource];
+ @endcode
+ 
+ @param dataSource Instance of a class implementing DBCacheDataSource
+ 
+ @return new instance of class implementing CacheProtocol
+ */
++ (id<CacheProtocol>) getInMemoryDBOverflowCacheUsingData:(id<DBCacheDataSource>) dataSource;
+
 @end

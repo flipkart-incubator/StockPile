@@ -34,7 +34,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Answer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN1-8e-fGT">
-                                <rect key="frame" x="256" y="222" width="58" height="21"/>
+                                <rect key="frame" x="259" y="222" width="58" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -82,7 +82,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jrq-OT-yBg">
-                                <rect key="frame" x="265" y="67" width="70" height="30"/>
+                                <rect key="frame" x="258" y="67" width="70" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Init Cache">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,7 +98,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WLO-6b-E4H">
-                                <rect key="frame" x="245" y="178" width="114" height="30"/>
+                                <rect key="frame" x="233" y="178" width="114" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Get Value">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -163,8 +163,16 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F93-Qb-O3s">
+                                <rect key="frame" x="216" y="280" width="152" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Run Test"/>
+                                <connections>
+                                    <action selector="runTestClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="RyG-Ve-EcH"/>
+                                </connections>
+                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fel-Ek-TVp">
-                                <rect key="frame" x="158" y="280" width="97" height="30"/>
+                                <rect key="frame" x="146" y="280" width="97" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -176,14 +184,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F93-Qb-O3s">
-                                <rect key="frame" x="236" y="280" width="152" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Run Test"/>
-                                <connections>
-                                    <action selector="runTestClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="RyG-Ve-EcH"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

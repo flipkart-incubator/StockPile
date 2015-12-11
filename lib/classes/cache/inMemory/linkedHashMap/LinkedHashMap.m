@@ -79,9 +79,10 @@
     }
     else if (_endNode == nil)
     {
-        _endNode = node;
+        _endNode = _startNode;
+        _startNode = node;
         _endNode.previousNode = _startNode;
-        _startNode.nextNode = node;
+        _startNode.nextNode = _endNode;
         _endNode.nextNode = nil;
     }
     else
