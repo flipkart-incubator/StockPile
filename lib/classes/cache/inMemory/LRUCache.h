@@ -18,12 +18,12 @@
 @interface LRUCache : BaseCache
 
 /*!
-The maximum number of elements that can be stored in memory.
+ The maximum number of elements that can be stored in memory.
  */
 @property (nonatomic, assign) NSInteger maxElementsInMemory;
 
 /*!
-The maximum memory that can be used to store elements
+ The maximum memory that can be used to store elements
  */
 @property (nonatomic, assign) float maxMemoryAllocated;
 
