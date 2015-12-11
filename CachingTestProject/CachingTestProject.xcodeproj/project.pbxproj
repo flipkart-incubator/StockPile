@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A6677539D9104C91D7B1D90E /* libPods-CachingTestProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A49A1C157DE1251BE32EA946 /* libPods-CachingTestProjectTests.a */; };
-		BF6ADC921C0E2129007B9434 /* 3000.png in Resources */ = {isa = PBXBuildFile; fileRef = BF6ADC911C0E2129007B9434 /* 3000.png */; };
-		BF6ADC941C0E2560007B9434 /* 300.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BF6ADC931C0E2560007B9434 /* 300.jpg */; };
-		BF6ADC961C0E25AE007B9434 /* 30.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BF6ADC951C0E25AE007B9434 /* 30.jpg */; };
-		BF6ADC981C0E2637007B9434 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BF6ADC971C0E2637007B9434 /* 3.jpg */; };
 		BF7322051B8EE23C00E7B0AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7322041B8EE23C00E7B0AA /* main.m */; };
 		BF7322081B8EE23C00E7B0AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7322071B8EE23C00E7B0AA /* AppDelegate.m */; };
 		BF73220B1B8EE23C00E7B0AA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73220A1B8EE23C00E7B0AA /* ViewController.m */; };
@@ -39,10 +35,6 @@
 		A5CC24AA5346A4FA8DF4FF93 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA34B985128EE9FDE82379FA /* Pods-CachingTestProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingTestProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject.release.xcconfig"; sourceTree = "<group>"; };
 		BC64125EBA43FD9E1824FDF4 /* Pods-CachingTestProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CachingTestProjectTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CachingTestProjectTests/Pods-CachingTestProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BF6ADC911C0E2129007B9434 /* 3000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 3000.png; path = ../../../../Desktop/3000.png; sourceTree = "<group>"; };
-		BF6ADC931C0E2560007B9434 /* 300.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 300.jpg; path = ../../../../Desktop/300.jpg; sourceTree = "<group>"; };
-		BF6ADC951C0E25AE007B9434 /* 30.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 30.jpg; path = ../../../../Desktop/30.jpg; sourceTree = "<group>"; };
-		BF6ADC971C0E2637007B9434 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 3.jpg; path = ../../../../Desktop/3.jpg; sourceTree = "<group>"; };
 		BF7321FF1B8EE23C00E7B0AA /* CachingTestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CachingTestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF7322031B8EE23C00E7B0AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF7322041B8EE23C00E7B0AA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -105,10 +97,6 @@
 		BF7321F61B8EE23C00E7B0AA = {
 			isa = PBXGroup;
 			children = (
-				BF6ADC971C0E2637007B9434 /* 3.jpg */,
-				BF6ADC951C0E25AE007B9434 /* 30.jpg */,
-				BF6ADC931C0E2560007B9434 /* 300.jpg */,
-				BF6ADC911C0E2129007B9434 /* 3000.png */,
 				BF7322011B8EE23C00E7B0AA /* CachingTestProject */,
 				BF73221B1B8EE23C00E7B0AA /* CachingTestProjectTests */,
 				BF7322001B8EE23C00E7B0AA /* Products */,
@@ -179,6 +167,7 @@
 				BF7321FC1B8EE23C00E7B0AA /* Frameworks */,
 				BF7321FD1B8EE23C00E7B0AA /* Resources */,
 				E89F56935C8CAE512EB5DDCF /* Copy Pods Resources */,
+				13D3A6A33F1060F02052CE39 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -198,6 +187,7 @@
 				BF7322151B8EE23C00E7B0AA /* Frameworks */,
 				BF7322161B8EE23C00E7B0AA /* Resources */,
 				CA5AB246BFBEAB42A4A8D988 /* Copy Pods Resources */,
+				1882787FF010619562C08026 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -251,12 +241,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF6ADC961C0E25AE007B9434 /* 30.jpg in Resources */,
 				BF73220E1B8EE23C00E7B0AA /* Main.storyboard in Resources */,
 				BF7322131B8EE23C00E7B0AA /* LaunchScreen.xib in Resources */,
-				BF6ADC921C0E2129007B9434 /* 3000.png in Resources */,
-				BF6ADC941C0E2560007B9434 /* 300.jpg in Resources */,
-				BF6ADC981C0E2637007B9434 /* 3.jpg in Resources */,
 				BF7322101B8EE23C00E7B0AA /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +257,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		13D3A6A33F1060F02052CE39 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1882787FF010619562C08026 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProjectTests/Pods-CachingTestProjectTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F709D27ECCCE27FD22175D7 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

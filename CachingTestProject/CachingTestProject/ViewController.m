@@ -7,10 +7,35 @@
 //
 
 #import "ViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import <malloc/malloc.h>
 
-#define abc @"HELLO"
-#define xyz @"HELLO"
+@interface DBCacheDataSourceImpl : NSObject<DBCacheDataSource, DiskCacheDataSource>
+
+@property (nonatomic) NSInteger pmaximumElementInMemory;
+@property (nonatomic) NSInteger pmaximumMemoryAllocated;
+@property (nonatomic, copy) NSString* pgetDBName;
+@property (nonatomic, copy) NSString* ppathForDiskCaching;
+
+@end
+
+@implementation DBCacheDataSourceImpl
+
+
+- (NSInteger) maximumElementInMemory;{
+    return self.pmaximumElementInMemory;
+}
+- (NSInteger) maximumMemoryAllocated;{
+    return self.pmaximumMemoryAllocated;
+}
+- (NSString*) getDBName;{
+    return self.pgetDBName;
+}
+- (NSString *)pathForDiskCaching{
+    return self.ppathForDiskCaching;
+}
+
+@end
+
 
 @interface InMemoryCacheDataSourceImpl : NSObject<CacheDataSource>
 
@@ -37,24 +62,36 @@
 
 @interface ViewController ()
 {
-    NSString *letters;
+    NSCache* nsCache;
+    NSString* letters;
+    CachingManager* automatedTestCachingManager;
+    float totalTimeForNSCache;
+    float totalTimeForStockPile;
+    NSInteger countOfElementsToCache;
+    
+    CachingManager* cachingManager;
+    
+    dispatch_queue_t serialQueue;
 }
 
 - (IBAction)addToCacheClicked:(id)sender;
 - (IBAction)getValueClicked:(id)sender;
 - (IBAction)initCacheClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *cachedValue;
+
+@property (weak, nonatomic) IBOutlet UILabel *nsCacheCachingTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nsCacheAccessTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stockPileCachingTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stockPileAccessTimeLabel;
+
 @property (weak, nonatomic) IBOutlet UITextField *countOfElements;
 @property (weak, nonatomic) IBOutlet UITextField *memoryAllocated;
 @property (weak, nonatomic) IBOutlet UITextField *valueToAdd;
 @property (weak, nonatomic) IBOutlet UITextField *valueToGet;
 
-//@property (nonatomic,strong) CacheFactoryDataSource* dataSource;
-@property (nonatomic, strong) id <CacheProtocol> cachingManager;
+@property (weak, nonatomic) IBOutlet UITextField *countOfElementsToRunTest;
 
 @end
-
-
 
 
 @implementation ViewController
@@ -62,14 +99,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self testCache];
-    
-    //[self testImageCaching];
-    
 }
 
-- (void) testCache
+- (void) viewDidAppear:(BOOL)animated
+{
+    [self setup];
+}
+
+- (void) setup
 {
     NSMutableString* str = [NSMutableString new];
     
@@ -78,122 +115,17 @@
         [str appendString:@"a"];
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"3" ofType:@"jpg"];
-    UIImage *img = [[UIImage alloc] initWithContentsOfFile:path];
-    
-    
     letters = [NSString stringWithString:str];
-    //NSCache* cache = [NSCache new];
+    
+    nsCache = [NSCache new];
+    nsCache.totalCostLimit = 250;
     
     InMemoryCacheDataSourceImpl *dataSource = [[InMemoryCacheDataSourceImpl alloc] init];
-    self.cachingManager = [StockPile getInMemoryCacheUsingData:dataSource];
+    automatedTestCachingManager = [StockPile getInMemoryCacheUsingData:dataSource];
     
+    countOfElementsToCache = 10000;
     
-    float totalTimeForNSCache;
-    float totalTimeForStockPile;
-    int countOfElementsToCache = 10000;
-    
-    //caching
-    NSDate* methodStart = [NSDate date];
-    for (int i = 0 ; i < countOfElementsToCache ; i++)
-    {
-        NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
-        
-        [[SDImageCache sharedImageCache] storeImage:img forKey:str];
-    }
-    
-    NSDate*methodFinish = [NSDate date];
-    
-    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-    
-    totalTimeForNSCache = executionTime;
-    
-    methodStart = [NSDate date];
-    for (int i = 0 ; i < countOfElementsToCache ; i++)
-    {
-        NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
-        
-        
-        Value* value = [[Value alloc] init];
-        value.value = str;
-        [self.cachingManager cacheValue:value forKey:str];
-    }
-    
-    methodFinish = [NSDate date];
-    
-    executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-    totalTimeForStockPile = executionTime;
-    NSLog(@"time for caching : %f %f", totalTimeForNSCache, totalTimeForStockPile);
-    
-    //access
-    
-    int cacheMiss = 0;
-    int stockPileMiss = 0;
-    
-    methodStart = [NSDate date];
-    for (int i = 0 ; i < 1 ; i++)
-    {
-        NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
-        
-        [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:str];
-    }
-    
-    methodFinish = [NSDate date];
-    
-    executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-    
-    totalTimeForNSCache = executionTime;
-    
-    int stockPileHit;
-    methodStart = [NSDate date];
-    for (int i = 0 ; i < 1 ; i++)
-    {
-        NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
-        
-        Value* gotObj = [self.cachingManager getValueForKey:str];
-        
-        if (gotObj == nil || gotObj.value == nil)
-        {
-            stockPileMiss++;
-        }
-        else
-        {
-            stockPileHit++;
-        }
-    }
-    
-    methodFinish = [NSDate date];
-    
-    executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-    totalTimeForStockPile = executionTime;
-    
-    NSLog(@"time for retriving : %f %f", totalTimeForNSCache, totalTimeForStockPile);
-    
-}
-
-- (void) testImageCaching
-{
-    
-    for (int i = 50 ; i < 500; i++)
-    {
-        NSLog(@"%d", i);
-        NSString* urlString = [NSString stringWithFormat:@"http://dummyimage.com/%d", 1000];
-        
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-        
-        [[SDImageCache sharedImageCache] storeImage:image forKey:[NSString stringWithFormat:@"%d", i]];
-    }
-    
-    NSDate* methodStart = [NSDate date];
-    for (int i = 50 ; i < 500; i++)
-    {
-        [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:[NSString stringWithFormat:@"%d", i]];
-    }
-    NSDate*methodFinish = [NSDate date];
-    
-    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-    
-    NSLog(@"%f", executionTime);
+    serialQueue = dispatch_queue_create("com.flipkart.caching", DISPATCH_QUEUE_SERIAL);
 }
 
 - (void)didReceiveMemoryWarning
@@ -217,20 +149,122 @@
     Value* value = [[Value alloc] init];
     value.value = key;
     
-    [self.cachingManager cacheValue:value forKey:key];
+    [cachingManager cacheValue:value forKey:key];
 }
 
 - (IBAction)getValueClicked:(id)sender
 {
-    Value* data = [_cachingManager getValueForKey:_valueToGet.text];
+    Value* data = [cachingManager getValueForKey:_valueToGet.text];
     
     _cachedValue.text = (NSString*)data.value;
 }
 
 - (IBAction)initCacheClicked:(id)sender
 {
+    DBCacheDataSourceImpl *dataSource = [[DBCacheDataSourceImpl alloc] init];
+    dataSource.pmaximumElementInMemory = [_countOfElements.text integerValue];
+    dataSource.pmaximumMemoryAllocated = [_memoryAllocated.text integerValue];
+    dataSource.ppathForDiskCaching = [self applicationDocumentsDirectory];
+    dataSource.pgetDBName = @"testProjectDatabase.sqlite";
+    
+    cachingManager = [StockPile getInMemoryDiskCopyCacheUsingData:dataSource];
 }
 
+- (IBAction)runTestClicked:(id)sender
+{
+    [self performSelectorInBackground:@selector(runTestCases) withObject:nil];
+}
 
+- (void) runTestCases
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _nsCacheAccessTimeLabel.text = @"";
+        _nsCacheCachingTimeLabel.text = @"";
+        _stockPileCachingTimeLabel.text = @"";
+        _stockPileAccessTimeLabel.text = @"";
+    });
+    
+    countOfElementsToCache = [_countOfElementsToRunTest.text integerValue];
+    [self nsCacheCaching];
+    [self nsCacheAccess];
+    [self stockPileCaching];
+    [self stockPileAccess];
+}
+
+- (void)nsCacheAccess
+{
+    NSTimeInterval timeInterval = [self measureBlock:^{
+        for (int i = 0 ; i < countOfElementsToCache ; i++)
+        {
+            NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
+            [nsCache objectForKey:str];
+        }
+    }];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _nsCacheAccessTimeLabel.text = [NSString stringWithFormat:@"%f", timeInterval];
+    });
+}
+
+- (void) nsCacheCaching
+{
+    NSTimeInterval timeInterval = [self measureBlock:^{
+        for (int i = 0 ; i < countOfElementsToCache ; i++)
+        {
+            NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
+            float sizeOfData = (float)malloc_size((__bridge const void *)(str))/1024.0f/1024.0f;
+            [nsCache setObject:str forKey:str cost:sizeOfData];
+        }
+    }];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _nsCacheCachingTimeLabel.text = [NSString stringWithFormat:@"%f", timeInterval];
+    });
+}
+
+- (void)stockPileCaching
+{
+   NSTimeInterval timeInterval = [self measureBlock:^{
+        for (int i = 0 ; i < countOfElementsToCache ; i++)
+        {
+            NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
+            
+            Value* value = [[Value alloc] init];
+            value.value = str;
+            [automatedTestCachingManager cacheValue:value forKey:str];
+        }
+    }];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _stockPileCachingTimeLabel.text = [NSString stringWithFormat:@"%f", timeInterval];
+    });
+}
+
+- (void)stockPileAccess
+{
+    NSTimeInterval timeInterval = [self measureBlock:^{
+        for (int i = 0 ; i < countOfElementsToCache ; i++)
+        {
+            NSString* str = [NSString stringWithFormat:@"%@%d", letters, i];
+            
+            [automatedTestCachingManager getValueForKey:str];
+        }
+    }];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _stockPileAccessTimeLabel.text = [NSString stringWithFormat:@"%f", timeInterval];
+    });
+}
+
+- (NSTimeInterval) measureBlock: (void(^)())block
+{
+    NSDate* startTime = [NSDate date];
+    
+    block();
+    
+    NSDate* endTime = [NSDate date];
+    
+    return [endTime timeIntervalSinceDate:startTime];
+}
 
 @end

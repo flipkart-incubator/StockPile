@@ -18,5 +18,4 @@ Pod::Spec.new do |s|
   s.exclude_files = "lib/classes/exclude"
   s.resource = "lib/classes/cache/inDatabase/CachingDatabase.xcdatamodeld"
   s.dependency "CoreDataLite", "~>0.0"
-  s.dependency "SDWebImage", "~>3.7"
 end
