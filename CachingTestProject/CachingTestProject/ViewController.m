@@ -39,6 +39,7 @@
 
 @interface InMemoryCacheDataSourceImpl : NSObject<CacheDataSource>
 
+@property (nonatomic) BOOL isForAutomatedTest;
 @property (nonatomic) NSInteger pmaximumElementInMemory;
 @property (nonatomic) NSInteger pmaximumMemoryAllocated;
 @property (nonatomic, copy) NSString* pgetDBName;
@@ -51,7 +52,7 @@
 
 - (NSInteger) maximumElementInMemory
 {
-    if (_pmaximumElementInMemory <= 0)
+    if (_isForAutomatedTest)
     {
         return 100000;
     }
@@ -62,7 +63,7 @@
 }
 - (NSInteger) maximumMemoryAllocated
 {
-    if (_pmaximumMemoryAllocated <= 0)
+    if (_isForAutomatedTest)
     {
         return 250;
     }
@@ -135,6 +136,7 @@
     nsCache.totalCostLimit = 250;
     
     InMemoryCacheDataSourceImpl *dataSource = [[InMemoryCacheDataSourceImpl alloc] init];
+    dataSource.isForAutomatedTest = YES;
     automatedTestCachingManager = [StockPile getInMemoryCacheUsingData:dataSource];
     
     serialQueue = dispatch_queue_create("com.flipkart.caching", DISPATCH_QUEUE_SERIAL);
@@ -184,6 +186,7 @@
     //cachingManager = [StockPile getInMemoryDBOverflowCacheUsingData:dataSource];
     
     InMemoryCacheDataSourceImpl *inMemoryDataSource = [[InMemoryCacheDataSourceImpl alloc] init];
+    inMemoryDataSource.isForAutomatedTest = NO;
     inMemoryDataSource.pmaximumElementInMemory = [_countOfElements.text integerValue];
     inMemoryDataSource.pmaximumMemoryAllocated = [_memoryAllocated.text integerValue];
     
