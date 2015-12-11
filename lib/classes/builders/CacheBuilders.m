@@ -8,7 +8,7 @@
 
 #import "CacheBuilders.h"
 #import "NSObject+CacheBuilder.h"
-#import "LRUCache.h"
+#import "CachingInMemoryHandler.h"
 #import "CachingException.h"
 #import "CachingManager.h"
 #import "CachingDataBaseHandler.h"
@@ -59,7 +59,7 @@
     
     return ^(CachingManager* cachingManager)
     {
-        LRUCache* inMemoryCache = [[LRUCache alloc] initUsingBlock:^(LRUCache* cache)
+        CachingInMemoryHandler* inMemoryCache = [[CachingInMemoryHandler alloc] initUsingBlock:^(CachingInMemoryHandler* cache)
                                    {
                                        cache.maxElementsInMemory = [cacheDataSource maximumElementInMemory];
                                        cache.maxMemoryAllocated = [cacheDataSource maximumMemoryAllocated];
@@ -84,12 +84,12 @@
     return ^(CachingManager* cachingManager)
     {
         
-        // 1. create LRU memory cache
-        // 2. create disk based lru cache
+        // 1. create memory cache
+        // 2. create disk based cache
         // 3. set disk cache as the copy of memory cache
         // 4. set the memory cache as the first responder
         
-        LRUCache* inMemoryCache = [[LRUCache alloc] initUsingBlock:^(LRUCache* cache)
+        CachingInMemoryHandler* inMemoryCache = [[CachingInMemoryHandler alloc] initUsingBlock:^(CachingInMemoryHandler* cache)
                                    {
                                        cache.maxElementsInMemory = [cacheDataSourceBlock maximumElementInMemory];
                                        cache.maxMemoryAllocated = [cacheDataSourceBlock maximumMemoryAllocated];
@@ -122,12 +122,12 @@
     return ^(CachingManager* cachingManager)
     {
         
-        // 1. create LRU memory cache
-        // 2. create disk based lru cache
+        // 1. create memory cache
+        // 2. create disk based cache
         // 3. set db cache as the copy of memory cache
         // 4. set the memory cache as the first responder
         
-        LRUCache* inMemoryCache = [[LRUCache alloc] initUsingBlock:^(LRUCache* cache)
+        CachingInMemoryHandler* inMemoryCache = [[CachingInMemoryHandler alloc] initUsingBlock:^(CachingInMemoryHandler* cache)
                                    {
                                        cache.maxElementsInMemory = [cacheDataSourceBlock maximumElementInMemory];
                                        cache.maxMemoryAllocated = [cacheDataSourceBlock maximumMemoryAllocated];
@@ -160,12 +160,12 @@
     return ^(CachingManager* cachingManager)
     {
         
-        // 1. create LRU memory cache
-        // 2. create disk based lru cache
+        // 1. create memory cache
+        // 2. create disk based cache
         // 3. set db cache as the copy of memory cache
         // 4. set the memory cache as the first responder
         
-        LRUCache* inMemoryCache = [[LRUCache alloc] initUsingBlock:^(LRUCache* cache)
+        CachingInMemoryHandler* inMemoryCache = [[CachingInMemoryHandler alloc] initUsingBlock:^(CachingInMemoryHandler* cache)
                                    {
                                        cache.maxElementsInMemory = [cacheDataSourceBlock maximumElementInMemory];
                                        cache.maxMemoryAllocated = [cacheDataSourceBlock maximumMemoryAllocated];

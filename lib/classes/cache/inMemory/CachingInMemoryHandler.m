@@ -1,16 +1,16 @@
 //
-//  LRUCache.m
+//  CachingInMemoryHandler.m
 //  Pods
 //
 //  Created by Prabodh Prakash on 01/09/15.
 //
 //
 
-#import "LRUCache.h"
+#import "CachingInMemoryHandler.h"
 #import "LinkedHashMap.h"
 #import "CachingException.h"
 
-@interface LRUCache()
+@interface CachingInMemoryHandler()
 
 @property (nonatomic, strong) LinkedHashMap* linkedHashMap;
 @property (nonatomic, assign) int currentSize;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation LRUCache
+@implementation CachingInMemoryHandler
 
 @synthesize linkedHashMap = _linkedHashMap;
 
