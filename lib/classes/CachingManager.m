@@ -29,7 +29,6 @@
     return self;
 }
 
-#warning do we need to keep dispatch_sync
 - (BOOL) cacheValue:(Value*) value forKey:(NSString *)key;
 {
     __block BOOL cached = NO;
@@ -38,6 +37,13 @@
     });
     
     return cached;
+}
+
+- (void) cacheAsyncValue:(Value*) value forKey:(NSString *)key;
+{
+    dispatch_async(serialQueue, ^{
+        [self.firstResponderCacheAlgo cacheValue:value forKey:key];
+    });
 }
 
 - (Value*) getValueForKey:(NSString *) key;

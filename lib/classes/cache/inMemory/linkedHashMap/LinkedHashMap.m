@@ -162,16 +162,14 @@
     node.nextNode.previousNode = node.previousNode;
 }
 
-- (float) removeEndNode
+- (Node*) removeEndNode
 {
     if (_endNode == nil)
     {
-        return -1;
+        return nil;
     }
     
     id<NSCopying, NSMutableCopying, NSSecureCoding> key = _endNode.key;
-    
-    float sizeOccupied = _endNode.sizeOfData;
     
     [_lookupDictionary removeObjectForKey:key];
     
@@ -179,7 +177,7 @@
     
     _endNode = _endNode.previousNode;
     
-    return sizeOccupied;
+    return _endNode;
 }
 
 @end

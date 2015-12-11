@@ -36,7 +36,7 @@
     return self;
 }
 
-- (BOOL) cacheNode: (Node*) node
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
     if (_currentSize == _maxElementsInMemory)
     {
@@ -47,10 +47,12 @@
     float memoryNeeded = node.sizeOfData;
     
     BOOL canCache = YES;
+    NSMutableArray *removedNodes = [NSMutableArray new];
     
     while ((_maxMemoryAllocated - _currentMemoryUsage) < memoryNeeded)
     {
-        float memoryReduced = [[self linkedHashMap] removeEndNode];
+        Node *endNode = [[self linkedHashMap] removeEndNode];
+        float memoryReduced = endNode.sizeOfData;
         
         if (memoryNeeded < 0)
         {
@@ -63,7 +65,10 @@
     
     if (!canCache)
     {
-        return NO;
+        *outError = [NSError errorWithDomain:@"NotEnoughMemoryError"
+                                        code:-1
+                                    userInfo:nil];
+        return removedNodes;
     }
     
     [[self linkedHashMap] putNode:node];
@@ -71,7 +76,7 @@
     
     _currentSize++;
     
-    return YES;
+    return removedNodes;
 }
 
 - (Node*) getNodeForKey:(NSString*) key

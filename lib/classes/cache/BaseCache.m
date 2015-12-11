@@ -15,7 +15,7 @@
 
 #pragma mark implementation of CacheAlgorithmProtocol
 
-- (BOOL) cacheNode: (Node*) node
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
     @throw [[CachingException alloc] initWithReason:@"Must be called to a sub class of BaseCache"];
 }
@@ -32,6 +32,18 @@
 
 #pragma mark implementation of CacheProtocol
 
+- (void) cacheAsyncValue:(Value*) value forKey:(NSString *)key{
+    if (!key)
+    {
+        @throw [[CachingException alloc] initWithReason:@"Key can't be nil"];
+    }
+    __block Value* valueInternal = value;
+    __block NSString* keyInternal = key;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self cacheValue:valueInternal forKey:keyInternal];
+    });
+}
+
 - (BOOL) cacheValue:(Value*) value forKey:(NSString *)key
 {
     if (!key)
@@ -41,20 +53,25 @@
     
     Node *node = [[Node alloc] initWithKey:key value:value];
 
-    BOOL cached = [self cacheNode:node];
+    NSError *error = nil;
+    __block NSArray *nodesRemoved = [self cacheNode:node error:&error];
     
-    if (cached)
+    // mirror the data
+    if (!error && self.mirroredCache)
     {
-        if (self.mirroredCache)
-        {
-            // call mirror
-            [self.mirroredCache cacheNode:node];
-        }
-        
-#warning add the code to add data to the fallback and mirror cache on a separate thread
-        
+        [self.mirroredCache cacheAsyncValue:value forKey:key];
     }
-    return cached;
+    
+    // handle the data which overflowed from the current cache
+    if (nodesRemoved && self.overFlowCache) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            for (Node* node in nodesRemoved) {
+                NSError *error;
+                [self.overFlowCache cacheNode:node error:&error];
+            }
+        });
+    }
+    return !error;
 }
 
 - (Value*) getValueForKey:(NSString*) key
@@ -69,7 +86,8 @@
             
             if (node.data)
             {
-                [self cacheNode:node];
+                NSError *error = nil;
+                [self cacheNode:node error:&error];
             }
         }
         #warning you might want to get the data from the fallback or mirroed cache
@@ -83,11 +101,15 @@
     return nil;
 }
 
+- (void) nodeDeleted:(Node *)node{
+    @throw [[CachingException alloc] initWithReason:@"Must be implemented by the sub class of BaseCache"];
+}
+
 - (void) clearCacheAndCascade
 {
     [self clearCache];
     [self.mirroredCache clearCache];
-    [self.fallBackCache clearCache];
+    [self.overFlowCache clearCache];
 }
 
 @end

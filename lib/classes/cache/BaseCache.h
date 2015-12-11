@@ -24,6 +24,18 @@
  */
 - (BOOL) cacheValue:(Value*) value forKey:(NSString*)key;
 
+
+/*!
+ This function is used to cache value against a uniquely identifying key. The real caching happens in a different thread.
+ @param value Value that needs to be cached
+ 
+ @param key Key that needs to be used for retrieval
+ 
+ @return returns a YES, if the data was properly cached else NO.
+ */
+- (void) cacheAsyncValue:(Value*) value forKey:(NSString*)key;
+
+
 /*!
  This method will retrieve the cached value against key. If the value is not present in memory,
  it will look out in the mirrored and then the fallback cache.
@@ -48,7 +60,7 @@
 /*!
  @param node Node type that needs to be cached
  */
-- (BOOL) cacheNode: (Node*) node;
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError;
 
 /*!
  This method will retrieve the cached value against key. If the value is not present in memory,
@@ -74,7 +86,7 @@
 /*!
  Holds the fallback cache
  */
-@property (nonatomic, strong) BaseCache* fallBackCache;
+@property (nonatomic, strong) BaseCache* overFlowCache;
 
 /*!
  Holds the mirrored cache

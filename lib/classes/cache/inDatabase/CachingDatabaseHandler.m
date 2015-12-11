@@ -30,15 +30,13 @@
         [[CoreDataManager sharedManager] setupCoreDataWithKey:self.dbName storeURL:storeURL objectModelIdentifier:@"CachingDatabase"];
         
         _coreDatabaseInterface = [[CoreDataManager sharedManager] getCoreDataInterfaceForKey:self.dbName];
-    }
+    });
     
     return _coreDatabaseInterface;
 }
 
-- (BOOL) cacheNode: (Node*) node
+- (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
-    __block BOOL isCachingSuccessful = true;
-    
     dispatch_sync([[self coreDatabaseInterface] getSerialQueue], ^{
         
         NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
@@ -56,15 +54,10 @@
         cacheTableEntity.ttlDate = node.data.ttlDate;
         cacheTableEntity.value = [NSKeyedArchiver archivedDataWithRootObject:node.data.value];
         
-        NSError* error;
-        
-        if (![_managedObjectContext save:&error])
-        {
-            isCachingSuccessful = false;
-        }
+        [_managedObjectContext save:outError];
     });
     
-    return isCachingSuccessful;
+    return nil;
 }
 
 - (Node*) getNodeForKey:(NSString*) key
