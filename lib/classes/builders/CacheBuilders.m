@@ -162,7 +162,7 @@
         
         // 1. create memory cache
         // 2. create disk based cache
-        // 3. set db cache as the copy of memory cache
+        // 3. set db cache as the overflow of memory cache
         // 4. set the memory cache as the first responder
         
         CachingInMemoryHandler* inMemoryCache = [[CachingInMemoryHandler alloc] initUsingBlock:^(CachingInMemoryHandler* cache)

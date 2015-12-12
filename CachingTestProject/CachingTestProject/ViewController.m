@@ -183,14 +183,14 @@
     
     //cachingManager = [StockPile getInMemoryDiskCopyCacheUsingData:dataSource];
     
-    //cachingManager = [StockPile getInMemoryDBOverflowCacheUsingData:dataSource];
+    cachingManager = [StockPile getInMemoryDBOverflowCacheUsingData:dataSource];
     
     InMemoryCacheDataSourceImpl *inMemoryDataSource = [[InMemoryCacheDataSourceImpl alloc] init];
     inMemoryDataSource.isForAutomatedTest = NO;
     inMemoryDataSource.pmaximumElementInMemory = [_countOfElements.text integerValue];
     inMemoryDataSource.pmaximumMemoryAllocated = [_memoryAllocated.text integerValue];
     
-    cachingManager = [StockPile getInMemoryCacheUsingData:inMemoryDataSource];
+    //cachingManager = [StockPile getInMemoryCacheUsingData:inMemoryDataSource];
 }
 
 - (IBAction)runTestClicked:(id)sender

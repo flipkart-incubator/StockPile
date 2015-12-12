@@ -37,11 +37,10 @@
 
 - (NSArray*) cacheNode: (Node*) node error:(NSError **)outError
 {
-    dispatch_sync([[self coreDatabaseInterface] getSerialQueue], ^{
-        
-        NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
-        
-        CacheTable* cacheTableEntity = [self getDBRowForKey:node.key];
+    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
+    
+    [_managedObjectContext performBlockAndWait:^{
+        CacheTable* cacheTableEntity = [self getDBRowForKey:node.key inContext:_managedObjectContext];
         
         if (cacheTableEntity == nil)
         {
@@ -55,7 +54,7 @@
         cacheTableEntity.value = [NSKeyedArchiver archivedDataWithRootObject:node.data.value];
         
         [_managedObjectContext save:outError];
-    });
+    }];
     
     return nil;
 }
@@ -63,10 +62,10 @@
 - (Node*) getNodeForKey:(NSString*) key
 {
     __block Node* node = nil;
-    dispatch_sync([[self coreDatabaseInterface] getSerialQueue], ^{
-        
-        NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
-        
+    
+    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
+    
+    [_managedObjectContext performBlockAndWait:^{
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
                                                   inManagedObjectContext:_managedObjectContext];
@@ -90,15 +89,14 @@
             
             node = [[Node alloc] initWithKey:key value:value];
         }
-    });
+    }];
     
     return node;
 }
 
-- (CacheTable*) getDBRowForKey:(NSString*) key
+- (CacheTable*) getDBRowForKey:(NSString*) key inContext: (NSManagedObjectContext*) _managedObjectContext
 {
     CacheTable* cachedValue = nil;
-    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
