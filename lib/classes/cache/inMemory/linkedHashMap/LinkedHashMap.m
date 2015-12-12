@@ -92,15 +92,6 @@
         _startNode.previousNode = node;
         _startNode = node;
     }
-    
-    NSLog(@"--- %@ --- %@", _startNode.data.value, _endNode.data.value);
-    Node* temp = _startNode;
-    
-    while (temp != nil)
-    {
-        NSLog(@"%@", temp.data.value);
-        temp = temp.nextNode;
-    }
 }
 
 - (void) putNode: (Node*) node atIndex: (int) index
