@@ -42,25 +42,28 @@
         
         NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
         
-        CacheTable* cacheTableEntity = [self getDBRowForKey:node.key];
+        [_managedObjectContext performBlockAndWait:^{
+            CacheTable* cacheTableEntity = [self getDBRowForKey:node.key];
+            
+            if (cacheTableEntity == nil)
+            {
+                cacheTableEntity = [NSEntityDescription insertNewObjectForEntityForName:@"CacheTable" inManagedObjectContext:_managedObjectContext];
+            }
+            
+            cacheTableEntity.key = node.key;
+            
+            //cacheTableEntity.ttlInterval = node.data.ttlInterval;
+            cacheTableEntity.ttlDate = node.data.ttlDate;
+            cacheTableEntity.value = [NSKeyedArchiver archivedDataWithRootObject:node.data.value];
+            
+            NSError* error;
+            
+            if (![_managedObjectContext save:&error])
+            {
+                isCachingSuccessful = false;
+            }
+        }];
         
-        if (cacheTableEntity == nil)
-        {
-            cacheTableEntity = [NSEntityDescription insertNewObjectForEntityForName:@"CacheTable" inManagedObjectContext:_managedObjectContext];
-        }
-        
-        cacheTableEntity.key = node.key;
-        
-        //cacheTableEntity.ttlInterval = node.data.ttlInterval;
-        cacheTableEntity.ttlDate = node.data.ttlDate;
-        cacheTableEntity.value = [NSKeyedArchiver archivedDataWithRootObject:node.data.value];
-        
-        NSError* error;
-        
-        if (![_managedObjectContext save:&error])
-        {
-            isCachingSuccessful = false;
-        }
     });
     
     return isCachingSuccessful;
@@ -73,6 +76,44 @@
         
         NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
         
+        [_managedObjectContext performBlockAndWait:^{
+            
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+            NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
+                                                      inManagedObjectContext:_managedObjectContext];
+            [fetchRequest setEntity:entity];
+            
+            NSPredicate* predicate = [NSPredicate predicateWithFormat:@"key == %@", key];
+            [fetchRequest setPredicate:predicate];
+            
+            NSError* error;
+            
+            NSArray *fetchedObjects = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            
+            if (!error && fetchedObjects != nil && fetchedObjects.count == 1)
+            {
+                CacheTable* cachedValue = (CacheTable*)[fetchedObjects objectAtIndex:0];
+                Value* value = [[Value alloc] init];
+                
+                value.key = key;
+                value.value = [NSKeyedUnarchiver unarchiveObjectWithData:cachedValue.value];
+                value.ttlDate = cachedValue.ttlDate;
+                
+                node = [[Node alloc] initWithKey:key value:value];
+            }
+        }];
+        
+    });
+    
+    return node;
+}
+
+- (CacheTable*) getDBRowForKey:(NSString*) key
+{
+    __block CacheTable* cachedValue = nil;
+    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
+    
+    [_managedObjectContext performBlockAndWait:^{
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
                                                   inManagedObjectContext:_managedObjectContext];
@@ -87,41 +128,9 @@
         
         if (!error && fetchedObjects != nil && fetchedObjects.count == 1)
         {
-            CacheTable* cachedValue = (CacheTable*)[fetchedObjects objectAtIndex:0];
-            Value* value = [[Value alloc] init];
-            
-            value.key = key;
-            value.value = [NSKeyedUnarchiver unarchiveObjectWithData:cachedValue.value];
-            value.ttlDate = cachedValue.ttlDate;
-            
-            node = [[Node alloc] initWithKey:key value:value];
+            cachedValue = (CacheTable*)[fetchedObjects objectAtIndex:0];
         }
-    });
-    
-    return node;
-}
-
-- (CacheTable*) getDBRowForKey:(NSString*) key
-{
-    CacheTable* cachedValue = nil;
-    NSManagedObjectContext* _managedObjectContext = [[self coreDatabaseInterface] getPrivateQueueManagedObjectContext];
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CacheTable"
-                                              inManagedObjectContext:_managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"key == %@", key];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError* error;
-    
-    NSArray *fetchedObjects = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    
-    if (!error && fetchedObjects != nil && fetchedObjects.count == 1)
-    {
-        cachedValue = (CacheTable*)[fetchedObjects objectAtIndex:0];
-    }
+    }];
     
     return cachedValue;
 }
