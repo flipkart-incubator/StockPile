@@ -167,6 +167,7 @@
 				BF7321FC1B8EE23C00E7B0AA /* Frameworks */,
 				BF7321FD1B8EE23C00E7B0AA /* Resources */,
 				E89F56935C8CAE512EB5DDCF /* Copy Pods Resources */,
+				17144760AE44EBC23151428C /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -186,6 +187,7 @@
 				BF7322151B8EE23C00E7B0AA /* Frameworks */,
 				BF7322161B8EE23C00E7B0AA /* Resources */,
 				CA5AB246BFBEAB42A4A8D988 /* Copy Pods Resources */,
+				9F0A39042F53B2FEBAFC945B /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,6 +257,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		17144760AE44EBC23151428C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProject/Pods-CachingTestProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F709D27ECCCE27FD22175D7 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -268,6 +285,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9F0A39042F53B2FEBAFC945B /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CachingTestProjectTests/Pods-CachingTestProjectTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CA5AB246BFBEAB42A4A8D988 /* Copy Pods Resources */ = {
