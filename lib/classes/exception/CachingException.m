@@ -12,7 +12,7 @@
 
 - (instancetype) initWithReason: (NSString*) reason
 {
-    self = [super initWithName:@"CoreDataDatabaseNotInitializedException" reason:reason userInfo:nil];
+    self = [super initWithName:@"CachingException" reason:reason userInfo:nil];
     return self;
 }
 
