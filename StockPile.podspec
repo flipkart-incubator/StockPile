@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.source_files  = "classes", "lib/classes/**/*.{h,m}"
   s.exclude_files = "lib/classes/exclude"
   s.resource = "lib/classes/cache/inDatabase/CachingDatabase.xcdatamodeld"
-  s.dependency "CoreDataLite", :git => "git@github.com:facebook/react-native", :tag => '1.1'
+  s.dependency "CoreDataLite"
 end
