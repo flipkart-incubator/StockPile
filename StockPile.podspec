@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "StockPile"
-  s.version      = "1.0.7"
+  s.version      = "1.0.9"
   s.summary      = "Caching Library in iOS"
 
   s.description  = <<-DESC
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.homepage     = "https://github.com/Flipkart/#{s.name}"
   s.license      = 'MIT'
-  s.author             = { "prabodhprakash" => "prabodh.prakash@flipkart.com" }
+  s.author             = { "prabodhprakash" => "prabodh.prakash@gmail.com" }
   s.social_media_url   = "http://twitter.com/prabodhprakash"
   s.platform     = :ios, "7.0"
   s.source       = { :git => "https://github.com/Flipkart/#{s.name}.git",  :tag =>s.version }
